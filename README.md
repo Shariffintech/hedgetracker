@@ -1,6 +1,6 @@
-CryptoDash - A live dashboard for crypto hedge fund data
+HedgeTracker - A live dashboard for crypto hedge fund data
 
-CryptoDash is a real-time dashboard that displays live data from crypto hedge funds using smart contracts on the Ethereum blockchain. The dashboard provides a visual representation of the performance of various crypto hedge funds and helps users make informed decisions about investments.
+HedgeTracker is a real-time dashboard that displays live data from crypto hedge funds using smart contracts on the Ethereum blockchain. The dashboard provides a visual representation of the performance of various crypto hedge funds and helps users make informed decisions about investments.
 
 Features
 
