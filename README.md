@@ -20,7 +20,7 @@ Screenshots [coming soon]
 
 Getting started
 
-Clone the repository: git clone https://github.com/[username]/CryptoDash.git
+Clone the repository: git clone https://github.com/[username]/hedgetracker.git
 Install the dependencies: cargo install
 Run the program: cargo run
 Contributing
