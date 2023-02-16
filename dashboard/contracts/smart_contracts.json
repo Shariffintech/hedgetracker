@@ -1,0 +1,14 @@
+[
+    {
+      "inputs": [],
+      "name": "get",
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
