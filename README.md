@@ -10,14 +10,6 @@ Smart contract integration for up-to-date information
 Easy-to-use interface for monitoring crypto hedge fund performance
 
 
-Screenshots [coming soon]
-
-[Insert image here] - A screenshot of the HedgeTracker dashboard
-
-[Insert image here] - A close-up of the interactive graphs and charts
-
-[Insert image here] - An example of the smart contract integration in action
-
 Swim Lane:
 ```
 +------------------------+    +------------------------+
@@ -48,6 +40,16 @@ Swim Lane:
 +------------------------+    +------------------------+
 ```
 Tutorial <Comming Soon>
+  
+  
+Screenshots
+
+Todo - A screenshot of the HedgeTracker dashboard
+
+Todo - A close-up of the interactive graphs and charts
+
+Todo - An example of the smart contract integration in action
+
 
 
 We welcome contributions from the community. If you would like to contribute to HedgeTracker, please follow these guidelines:
