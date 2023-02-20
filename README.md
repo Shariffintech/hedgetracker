@@ -18,16 +18,10 @@ Screenshots [coming soon]
 
 [Insert image here] - An example of the smart contract integration in action
 
-Getting started
+Swim Lane:
 
-<<<<<<< HEAD
-Clone the repository: git clone https://github.com/[username]/HedgeTracker.git
-=======
-Clone the repository: git clone https://github.com/[username]/hedgetracker.git
->>>>>>> origin/master
-Install the dependencies: cargo install
-Run the program: cargo run
-Contributing
+Tutorial <Comming Soon>
+
 
 We welcome contributions from the community. If you would like to contribute to HedgeTracker, please follow these guidelines:
 
@@ -36,8 +30,7 @@ Create a new branch for your changes
 Submit a pull request for review
 License
 
-<<<<<<< HEAD
+
 HedgeTracker is released under the MIT license. See LICENSE for more information.
-=======
-CryptoDash is released under the MIT license. See LICENSE for more information.
->>>>>>> origin/master
+
+
