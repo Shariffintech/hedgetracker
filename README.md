@@ -1,6 +1,6 @@
 HedgeTracker - A live dashboard for crypto hedge fund data
 
-HedgeTracker is a real-time dashboard that displays live data from crypto hedge funds using smart contracts on the Ethereum blockchain. The dashboard provides a visual representation of the performance of various crypto hedge funds and helps users make informed decisions about investments.
+HedgeTracker is a real-time dashboard that displays live data from crypto hedge funds using smart contracts on the Solana blockchain. The dashboard provides a visual representation of the performance of various crypto hedge funds and helps users make informed decisions about investments.
 
 Features
 
@@ -20,7 +20,11 @@ Screenshots [coming soon]
 
 Getting started
 
+<<<<<<< HEAD
 Clone the repository: git clone https://github.com/[username]/HedgeTracker.git
+=======
+Clone the repository: git clone https://github.com/[username]/hedgetracker.git
+>>>>>>> origin/master
 Install the dependencies: cargo install
 Run the program: cargo run
 Contributing
@@ -32,4 +36,8 @@ Create a new branch for your changes
 Submit a pull request for review
 License
 
+<<<<<<< HEAD
 HedgeTracker is released under the MIT license. See LICENSE for more information.
+=======
+CryptoDash is released under the MIT license. See LICENSE for more information.
+>>>>>>> origin/master
