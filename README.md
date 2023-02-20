@@ -20,6 +20,33 @@ Screenshots [coming soon]
 
 Swim Lane:
 
++------------------------+    +------------------------+
+|        Smart           |    |      Hedge Funds       |
+|      Contracts         |    |                        |
+|                        |    |  +------------------+  |
+|  +------------------+  |    |  |      Fund 1      |  |
+|  |    Fund Data     |<---------+------------------+  |
+|  +------------------+  |    |  |      Fund 2      |  |
+|                        |    |  +------------------+  |
++------------------------+    |           ...          |
+                              |  +------------------+  |
+                              |  |      Fund n      |  |
+                              |  +------------------+  |
+                              +------------------------+
+                                           |
+                                           |
+                                           |
+                                           v
++------------------------+    +------------------------+
+|        HedgeTracker    |    |      User Interface    |
+|                        |    |                        |
+|  +------------------+  |    |  +------------------+  |
+|  |  Solana Provider |<----->|     Live Data     |  |
+|  +------------------+  |    |  +------------------+  |
+|                        |    |  |  Visualizations  |  |
+|                        |    |  +------------------+  |
++------------------------+    +------------------------+
+
 Tutorial <Comming Soon>
 
 
@@ -31,6 +58,7 @@ Submit a pull request for review
 License
 
 
-HedgeTracker is released under the MIT license. See LICENSE for more information.
+HedgeTracker is released under the MIT license. 
+  See LICENSE for more information.
 
 
