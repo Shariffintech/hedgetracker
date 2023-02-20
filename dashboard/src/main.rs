@@ -1,6 +1,8 @@
 extern crate ethereum_types;
 extern crate web3;
+extern crate tokio;
 
+use tokio;
 use ethereum_types::Address;
 use web3::contract::{Contract, Options};
 use web3::futures::Future;
