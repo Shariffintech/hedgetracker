@@ -19,7 +19,7 @@ Screenshots [coming soon]
 [Insert image here] - An example of the smart contract integration in action
 
 Swim Lane:
-
+```
 +------------------------+    +------------------------+
 |        Smart           |    |      Hedge Funds       |
 |      Contracts         |    |                        |
@@ -46,7 +46,7 @@ Swim Lane:
 |                        |    |  |  Visualizations  |  |
 |                        |    |  +------------------+  |
 +------------------------+    +------------------------+
-
+```
 Tutorial <Comming Soon>
 
 
