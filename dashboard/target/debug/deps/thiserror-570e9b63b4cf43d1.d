@@ -1,0 +1,10 @@
+/Users/shariftarver/Desktop/software_engineering/mastering-rust/hedgetracker_dapp/dashboard/target/debug/deps/thiserror-570e9b63b4cf43d1.rmeta: /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/lib.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/aserror.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/display.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/provide.rs
+
+/Users/shariftarver/Desktop/software_engineering/mastering-rust/hedgetracker_dapp/dashboard/target/debug/deps/libthiserror-570e9b63b4cf43d1.rlib: /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/lib.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/aserror.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/display.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/provide.rs
+
+/Users/shariftarver/Desktop/software_engineering/mastering-rust/hedgetracker_dapp/dashboard/target/debug/deps/thiserror-570e9b63b4cf43d1.d: /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/lib.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/aserror.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/display.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/provide.rs
+
+/Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/lib.rs:
+/Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/aserror.rs:
+/Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/display.rs:
+/Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-1.0.38/src/provide.rs:

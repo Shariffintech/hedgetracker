@@ -11,6 +11,40 @@ use web3::types::U256;
 
 #[tokio::main]
 async fn main() -> web3::Result<()> {
+    let mut app = Application::new().unwrap();
+
+    // Define the main window
+    let mut window = Window::new(&app, "Dashboard");
+    window.set_size((800, 600));
+
+    // Define the main container widget
+    let mut container = Container::new();
+    container.set_spacing(10);
+    container.set_padding(10);
+    window.set_child(Some(container));
+
+    // Define a label widget
+    let label1 = Label::new("Widget 1");
+    container.add_child(&label1);
+
+    // Define a progress bar widget
+    let mut progress_bar = ProgressBar::new();
+    progress_bar.set_value(0.5);
+    container.add_child(&progress_bar);
+
+    // Define a button widget
+    let mut button = Button::new("Click me");
+    button.on_click(|_| {
+        println!("Button clicked");
+    });
+    container.add_child(&button);
+
+    // Show the main window
+    window.show();
+
+    app.run();
+
+
     // Connect to the Ethereum blockchain
     let (_eloop, transport) = web3::transports::Http::new("http://localhost:8545").unwrap();
     let web3 = web3::Web3::new(transport);
