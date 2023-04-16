@@ -1,6 +1,6 @@
-use lept::prelude::*;
-use lept::widget::{button, input, text, widget};
-use lept::widget::text::{TextAlignment, TextConfig};
+use leptos::prelude::*;
+use leptos::widget::{button, input, text, widget};
+use leptos::widget::text::{TextAlignment, TextConfig};
 
 #[derive(Debug, Clone, PartialEq)]
 struct StartupMetrics {

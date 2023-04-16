@@ -9,3 +9,4 @@ edition = "2021"
 web3 = "0.17.0"
 ethereum-types = "0.14.1" 
 tokio = "1.25.0"   
+leptos = "0.2.4"                          # Leptos is a full-stack, isomorphic Rust web framework leveraging fine-grained reactiv
