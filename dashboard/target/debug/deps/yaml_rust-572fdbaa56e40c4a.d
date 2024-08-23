@@ -1,0 +1,9 @@
+/Users/shariftarver/Desktop/software_engineering/mastering-rust/hedgetracker_dapp/dashboard/target/debug/deps/libyaml_rust-572fdbaa56e40c4a.rmeta: /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/lib.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/emitter.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/parser.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/scanner.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/yaml.rs
+
+/Users/shariftarver/Desktop/software_engineering/mastering-rust/hedgetracker_dapp/dashboard/target/debug/deps/yaml_rust-572fdbaa56e40c4a.d: /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/lib.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/emitter.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/parser.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/scanner.rs /Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/yaml.rs
+
+/Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/lib.rs:
+/Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/emitter.rs:
+/Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/parser.rs:
+/Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/scanner.rs:
+/Users/shariftarver/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yaml-rust-0.4.5/src/yaml.rs:
