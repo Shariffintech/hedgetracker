@@ -1,3 +1,0 @@
-cargo:rerun-if-changed=build/main.rs
-cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/shariftarver/Desktop/software_engineering/mastering-rust/hedgetracker_dapp/dashboard/target/debug/build/typenum-940b6c39d082c183/out/consts.rs
-cargo:rustc-env=TYPENUM_BUILD_OP=/Users/shariftarver/Desktop/software_engineering/mastering-rust/hedgetracker_dapp/dashboard/target/debug/build/typenum-940b6c39d082c183/out/op.rs
