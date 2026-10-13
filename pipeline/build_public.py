@@ -31,6 +31,38 @@ def build_visualizations(funds: dict, discovery: dict) -> dict:
     }
 
 
+def build_performance(funds: dict, source: dict, market: dict) -> dict:
+    known = {fund["id"] for fund in funds["funds"]}
+    series = []
+    for item in source["series"]:
+        assert item["fundId"] in known
+        assert item["shareClass"] and item["returnBasis"] == "net"
+        assert item["sourceType"] in ("manager", "administrator")
+        assert item["sourceDate"] <= date.today().isoformat()
+        source_url = urlparse(item["sourceUrl"])
+        assert source_url.scheme == "https" and source_url.hostname
+        points = pl.DataFrame(item["points"], schema={"date": pl.String, "returnPct": pl.Float64})
+        assert points.height >= 2
+        assert points.select(pl.col("date").n_unique()).item() == points.height
+        assert points.select(pl.col("returnPct").is_finite().all()).item()
+        assert all(date.fromisoformat(day) <= date.today() for day in points["date"])
+        series.append({**item, "points": points.sort("date").to_dicts()})
+    market_rows = pl.DataFrame(market["rows"], schema={"date": pl.String, "closeUsd": pl.Float64}).sort("date")
+    assert market_rows.height >= 30
+    assert market_rows.select(pl.col("closeUsd").is_finite().all()).item()
+    assert market_rows.select((pl.col("closeUsd") > 0).all()).item()
+    assert market_rows.select(pl.col("date").n_unique()).item() == market_rows.height
+    assert all(date.fromisoformat(day) <= date.today() for day in market_rows["date"])
+    return {
+        "definition": source["definition"],
+        "series": series,
+        "benchmark": {"name": "BTC-USD", "source": market["source"], "sourceUrl": market["sourceUrl"], "retrievedAt": market["retrievedAt"], "points": market_rows.to_dicts()},
+        "fundCount": len(known),
+        "coveredFundCount": len({item["fundId"] for item in series}),
+        "preparedWith": "Polars",
+    }
+
+
 def validate_funds(funds: dict) -> None:
     assert funds["mode"] == "manager_confirmed"
     assert date.fromisoformat(funds["verifiedAt"]) <= date.today()
@@ -60,11 +92,13 @@ def main() -> None:
     discovery = json.loads((DATA / "discovery.json").read_text())
     validate_funds(funds)
     chart_data = build_visualizations(funds, discovery)
+    performance = build_performance(funds, json.loads((ROOT / "pipeline" / "performance.json").read_text()), json.loads((ROOT / "pipeline" / "market" / "btc-usd.json").read_text()))
     (DATA / "visualizations.json").write_text(json.dumps(chart_data, indent=2) + "\n")
+    (DATA / "performance.json").write_text(json.dumps(performance, indent=2) + "\n")
     (PUBLIC / "data").mkdir(parents=True, exist_ok=True)
     for name in ("index.html", "style.css", "app.js"):
         shutil.copyfile(ROOT / "dashboard" / "src" / name, PUBLIC / name)
-    for name in ("funds.json", "discovery.json", "visualizations.json"):
+    for name in ("funds.json", "discovery.json", "visualizations.json", "performance.json"):
         shutil.copyfile(DATA / name, PUBLIC / "data" / name)
 
 

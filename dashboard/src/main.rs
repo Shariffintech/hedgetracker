@@ -66,6 +66,12 @@ fn handle(mut stream: TcpStream) -> std::io::Result<()> {
                 "application/json; charset=utf-8",
                 include_str!("../data/visualizations.json").to_string(),
             ),
+            "/data/performance.json" => (
+                "200 OK",
+                "application/json; charset=utf-8",
+                include_str!("../data/performance.json").to_string(),
+            ),
+            "/api/research" => ("200 OK", "application/json; charset=utf-8", research_json()),
             "/api/discovery" => {
                 let path = env::var("HEDGETRACKER_DISCOVERY_PATH")
                     .unwrap_or_else(|_| "data/discovery.json".to_string());
@@ -133,8 +139,37 @@ fn discovery_json(path: &str, now: DateTime<Utc>) -> Option<String> {
 }
 
 fn funds_json() -> String {
-    // Illustrative records only. This repository has no configured market feed or contract.
     include_str!("../data/funds.json").to_string()
+}
+
+fn research_json() -> String {
+    let report: serde_json::Value =
+        serde_json::from_str(include_str!("../data/research_sources.json"))
+            .expect("reviewed manager source snapshot");
+    let candidates: Vec<serde_json::Value> = report["candidates"]
+        .as_array()
+        .expect("candidate array")
+        .iter()
+        .take(25)
+        .map(|item| {
+            serde_json::json!({
+                "name": item["name"],
+                "manager": item["manager"],
+                "region": if item["locationUrl"].is_null() { serde_json::Value::String("Location unverified".into()) } else { item["region"].clone() },
+                "managerUrl": item["managerUrl"],
+                "status": "manager_confirmed",
+                "evidenceScore": if item["locationUrl"].is_null() { 1 } else { 2 },
+                "evidence": "Reviewed manager product page names this fund. No dated public fund return series has passed review. Local mode uses the dated source snapshot."
+            })
+        })
+        .collect();
+    serde_json::json!({
+        "generatedAt": report["reviewedAt"], "target": 25,
+        "ranking": "Manager product and location evidence", "candidates": candidates,
+        "scans": [],
+        "warning": "Local snapshot of reviewed manager sources. The deployed agent rechecks product pages live. No public fund return series passed review."
+    })
+    .to_string()
 }
 
 fn parameter(query: &str, key: &str) -> Option<f64> {

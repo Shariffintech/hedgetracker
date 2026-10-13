@@ -1,0 +1,23 @@
+{
+  "reviewedAt": "2026-10-12",
+  "candidates": [
+    {
+      "name": "Pantera Bitcoin Fund",
+      "manager": "Pantera Capital",
+      "strategy": "Passive Bitcoin hedge fund",
+      "region": "New York City",
+      "managerUrl": "https://panteracapital.com/funds/bitcoin-fund/",
+      "locationUrl": "https://panteracapital.com/firm/",
+      "locationPhrase": "New York"
+    },
+    {
+      "name": "Galaxy Absolute Return Fund",
+      "manager": "Galaxy Asset Management",
+      "strategy": "Digital asset absolute return",
+      "region": "United States",
+      "managerUrl": "https://am.galaxy.com/absolute-return",
+      "locationUrl": null,
+      "locationPhrase": null
+    }
+  ]
+}

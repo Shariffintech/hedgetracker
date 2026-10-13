@@ -13,7 +13,8 @@
     <a class="brand" href="#overview"><span class="brand-mark">H<span class="brand-cross">+</span></span><span>HedgeTracker<small>FUND INTELLIGENCE</small></span></a>
     <nav aria-label="Main navigation">
       <a href="#overview">Overview</a>
-      <a href="#discovery">Confirmed funds</a>
+      <a href="#performance">Performance</a>
+      <a href="#discovery">Fund studies</a>
       <a href="#modeler">Model lab</a>
       <a href="#method">Method</a>
     </nav>
@@ -23,20 +24,28 @@
     <section class="hero">
       <div class="hero-meta"><span>RESEARCH NOTE 01</span><span>TRADITIONAL DIGITAL-ASSET FUNDS</span><span id="as-of">VERIFIED —</span></div>
       <h1>Know the fund.<br><em>See the evidence.</em></h1>
-      <p class="hero-copy">A curated directory of named funds with manager-published product pages and matching public filings. Open a card to inspect the underlying record.</p>
-      <div class="hero-rule"><span>MANAGER → FUND → FILING → REVIEW</span><span>01 / 03</span></div>
+      <p class="hero-copy">A research desk for traditional digital asset funds. Compare performance evidence, inspect each fund study, and see where public return data stops.</p>
+      <div class="hero-rule"><span>FUND → PERFORMANCE → SOURCE → REVIEW</span><span>01 / 03</span></div>
     </section>
 
     <section class="summary" aria-label="Directory summary">
       <div class="summary-item"><span>CONFIRMED FUND LISTINGS</span><strong id="fund-count">—</strong><small>Named on manager websites</small></div>
       <div class="summary-item"><span>INDEPENDENT MANAGERS</span><strong id="manager-count">—</strong><small>Primary product pages</small></div>
-      <div class="summary-item"><span>PUBLIC FILINGS MATCHED</span><strong id="filing-count">—</strong><small>Exact legal entities</small></div>
+      <div class="summary-item"><span>RETURN SERIES VERIFIED</span><strong id="filing-count">—</strong><small>Fund level, dated source</small></div>
       <div class="summary-item freshness"><span>REVIEW STATUS</span><strong id="freshness">—</strong><small>Checked against source dates</small></div>
     </section>
 
+    <section id="performance" class="performance-section">
+      <div class="section-header"><div><span class="eyebrow">01 / PERFORMANCE DESK</span><h2>Performance, with proof.</h2></div><p>Explore available fund return series and a separate BTC market benchmark. A market price is never presented as a fund return.</p></div>
+      <div class="performance-controls"><label>SELECT FUND <select id="performance-fund" aria-label="Select fund performance"></select></label><div class="period-buttons" aria-label="Chart period"><button type="button" data-period="30" aria-pressed="true">30D</button><button type="button" data-period="90" aria-pressed="false">90D</button></div></div>
+      <div class="performance-grid"><div><span class="eyebrow" id="performance-chart-label">BTC / USD MARKET CONTEXT</span><div id="performance-chart" class="performance-chart" role="img"></div><div class="chart-axis"><span id="chart-start">—</span><span id="chart-end">—</span></div></div><aside class="performance-note"><span>FUND RETURN COVERAGE</span><strong id="return-coverage">0 / 3</strong><p id="performance-status">Checking fund disclosures…</p><small id="benchmark-source"></small></aside></div>
+    </section>
+
     <section id="discovery" class="fund-section">
-      <div class="section-header"><div><span class="eyebrow">01 / FUND UNIVERSE</span><h2>Confirmed funds</h2></div><p>These are real named products. Fund-level AUM and returns are withheld until a dated primary disclosure is available.</p></div>
-      <div class="section-rule"><span>FUND / MANAGER / STRATEGY</span><span>SELECT A CARD TO VIEW EVIDENCE ↘</span></div>
+      <div class="section-header"><div><span class="eyebrow">02 / FUND STUDIES</span><h2>Fund performance studies</h2></div><p>Each study separates what the manager publishes about the fund from verified returns and market context.</p></div>
+      <div class="research-toolbar"><div><span class="eyebrow">RESEARCH AGENT</span><p>Check manager-owned fund pages, score identity and location evidence, and find up to 25 study candidates across the US, NYC, Switzerland, Lisbon, and Germany.</p></div><button type="button" id="research-button">FIND NEW FUNDS <span>↗</span></button></div>
+      <div id="research-results" class="research-results" hidden><div class="research-heading"><h3>Research queue</h3><span id="research-summary"></span></div><div id="research-filters" class="research-filters" aria-label="Filter research locations"></div><p id="research-status" role="status"></p><div id="research-list"></div></div>
+      <div class="section-rule"><span>FUND / STRATEGY / RETURN COVERAGE</span><span>OPEN A PERFORMANCE STUDY ↘</span></div>
       <div id="fund-cards" class="fund-cards" aria-live="polite"></div>
       <p id="fund-error" class="error" role="status"></p>
     </section>
@@ -58,8 +67,8 @@
       <div class="projection-result"><div><span>HYPOTHETICAL END VALUE</span><strong id="projected-value">—</strong><small>Before fees, taxes, and withdrawals</small></div><div id="projection-chart" class="mini-chart" role="img" aria-label="Projection over time"></div></div>
     </section>
 
-    <section id="method" class="method-section"><span class="eyebrow">RESEARCH STANDARD</span><h2>What “confirmed” means</h2><div class="method-grid"><p><span>01</span> The manager currently names and describes the fund on its own site.</p><p><span>02</span> A public filing names the matching legal fund or series. Open each card for the filing type, date, and source.</p><p><span>03</span> Confirmation covers identity and public listing. It does not establish current subscriptions, audited returns, or fund assets.</p></div><small id="method-updated"></small></section>
+    <section id="method" class="method-section"><span class="eyebrow">RESEARCH STANDARD</span><h2>How to read a study</h2><div class="method-grid"><p><span>01</span> The manager's current product page establishes the named fund and described strategy.</p><p><span>02</span> Fund returns appear only with a dated manager or administrator series for the exact share class. The BTC line is market context.</p><p><span>03</span> Source records and historical filings remain available inside each study for readers who want to inspect identity evidence.</p></div><small id="method-updated"></small></section>
   </main>
-  <footer><span>HEDGE<span class="accent">+</span>TRACKER</span><span>PRIMARY SOURCES · EXPLICIT LIMITS · NO SYNTHETIC PERFORMANCE</span></footer>
+  <footer><span>HEDGE<span class="accent">+</span>TRACKER</span><span>PERFORMANCE EVIDENCE · MARKET CONTEXT · NO SYNTHETIC FUND RETURNS</span></footer>
 </body>
 </html>

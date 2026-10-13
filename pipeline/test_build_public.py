@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import unittest
 
-from build_public import build_visualizations, validate_funds
+from build_public import build_performance, build_visualizations, validate_funds
 
 
 DATA = Path(__file__).resolve().parents[1] / "dashboard" / "data"
@@ -31,6 +31,17 @@ class ConfirmedFundTests(unittest.TestCase):
         fake_return["funds"][0]["returnYtd"] = 20
         with self.assertRaises(AssertionError):
             validate_funds(fake_return)
+
+    def test_performance_requires_fund_specific_primary_series(self):
+        source = json.loads((DATA.parents[1] / "pipeline" / "performance.json").read_text())
+        market = json.loads((DATA.parents[1] / "pipeline" / "market" / "btc-usd.json").read_text())
+        built = build_performance(self.funds, source, market)
+        self.assertEqual(built["coveredFundCount"], 0)
+        self.assertGreaterEqual(len(built["benchmark"]["points"]), 30)
+        bad = copy.deepcopy(source)
+        bad["series"] = [{"fundId": "pantera-liquid", "shareClass": "A", "returnBasis": "gross", "sourceType": "manager", "sourceDate": "2026-10-12", "sourceUrl": "https://panteracapital.com/", "points": [{"date": "2026-09-01", "returnPct": 1.0}, {"date": "2026-10-01", "returnPct": 2.0}]}]
+        with self.assertRaises(AssertionError):
+            build_performance(self.funds, bad, market)
 
 
 if __name__ == "__main__":

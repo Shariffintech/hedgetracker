@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "buildCommand": "python3 -m venv .vercel-build-venv && .vercel-build-venv/bin/pip install -r pipeline/requirements-visualization.txt && .vercel-build-venv/bin/python pipeline/build_public.py",
+  "buildCommand": "python3 -m venv .vercel-build-venv && .vercel-build-venv/bin/pip install -r pipeline/requirements-visualization.txt && .vercel-build-venv/bin/python pipeline/refresh_market.py && .vercel-build-venv/bin/python pipeline/build_public.py",
   "outputDirectory": "public",
   "rewrites": [
     { "source": "/api/funds", "destination": "/data/funds.json" },

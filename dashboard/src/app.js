@@ -19,6 +19,10 @@ function makeLink(label, url) {
   return link;
 }
 
+let performanceData;
+let selectedFund;
+let selectedPeriod = 30;
+
 function makeCard(fund, fresh, index) {
   const card = document.createElement('details');
   card.className = 'fund-card';
@@ -43,16 +47,35 @@ function makeCard(fund, fresh, index) {
   strategy.textContent = fund.strategy;
   const badge = document.createElement('span');
   badge.className = 'card-badge' + (fresh ? '' : ' expired');
-  badge.textContent = fresh ? 'SOURCE CONFIRMED' : 'RECHECK SOURCES';
+  badge.textContent = performanceData?.series.some(item => item.fundId === fund.id) ? 'RETURNS VERIFIED' : 'RETURNS UNPUBLISHED';
   const arrow = document.createElement('span');
   arrow.className = 'card-arrow';
   arrow.textContent = '↗';
-  side.append(strategy, badge, arrow);
+  const coverage = document.createElement('span');
+  coverage.className = 'card-coverage';
+  coverage.textContent = performanceData?.series.some(item => item.fundId === fund.id) ? 'Fund series available ↗' : 'Fund series unavailable · BTC context ↗';
+  side.append(strategy, badge, coverage, arrow);
   summary.append(ordinal, main, side);
   card.append(summary);
 
   const detail = document.createElement('div');
   detail.className = 'card-detail';
+  const study = document.createElement('div');
+  study.className = 'study-block';
+  const studyLabel = document.createElement('span');
+  studyLabel.className = 'detail-label';
+  studyLabel.textContent = 'PERFORMANCE STUDY';
+  const studyTitle = document.createElement('h3');
+  studyTitle.textContent = 'Public return coverage';
+  const studyCopy = document.createElement('p');
+  studyCopy.textContent = performanceData?.series.some(item => item.fundId === fund.id)
+    ? 'A dated fund-level return series is available. Select this fund in the performance desk above to explore it.'
+    : 'No dated, fund-specific return series has passed the source review. The BTC chart above shows market movement only; it is not this fund’s performance.';
+  const studyAction = document.createElement('button');
+  studyAction.type = 'button';
+  studyAction.textContent = 'VIEW IN PERFORMANCE DESK ↗';
+  studyAction.addEventListener('click', () => { byId('performance-fund').value = fund.id; selectedFund = fund.id; renderPerformance(); byId('performance').scrollIntoView({ behavior: 'smooth' }); });
+  study.append(studyLabel, studyTitle, studyCopy, studyAction);
   const managerBlock = document.createElement('div');
   const managerLabel = document.createElement('span');
   managerLabel.className = 'detail-label';
@@ -84,7 +107,12 @@ function makeCard(fund, fresh, index) {
     recent.append(recentMeta, recentNote, makeLink('Open later filing ↗', fund.recentFiling.url));
     filingBlock.append(recent);
   }
-  detail.append(managerBlock, filingBlock);
+  const evidence = document.createElement('details');
+  evidence.className = 'study-evidence';
+  const evidenceTitle = document.createElement('summary');
+  evidenceTitle.textContent = 'VIEW HISTORICAL FILING EVIDENCE ↘';
+  evidence.append(evidenceTitle, filingBlock);
+  detail.append(study, managerBlock, evidence);
   card.append(detail);
   return card;
 }
@@ -96,7 +124,7 @@ function renderFunds(data, charts) {
   byId('as-of').textContent = `VERIFIED ${data.verifiedAt}`;
   byId('fund-count').textContent = charts.fundCount;
   byId('manager-count').textContent = charts.managerCount;
-  byId('filing-count').textContent = data.funds.filter(fund => fund.filing && fund.filing.url).length;
+  byId('filing-count').textContent = performanceData.coveredFundCount;
   byId('freshness').textContent = fresh ? 'CURRENT' : 'RECHECK';
   byId('method-updated').textContent = `Sources checked ${data.verifiedAt}. ${data.definition}`;
   const cards = byId('fund-cards');
@@ -121,6 +149,74 @@ function renderFunds(data, charts) {
   });
 }
 
+function renderPerformance() {
+  const fundSeries = performanceData.series.find(item => item.fundId === selectedFund);
+  const market = performanceData.benchmark.points.slice(-selectedPeriod);
+  const labels = market.map(item => item.date);
+  const values = market.map(item => item.closeUsd / market[0].closeUsd * 100);
+  byId('performance-chart').innerHTML = lineChart(values, 800, 210);
+  byId('performance-chart').setAttribute('aria-label', `BTC USD market price index from ${labels[0]} to ${labels.at(-1)}, starting at 100. This is not fund performance.`);
+  byId('chart-start').textContent = labels[0];
+  byId('chart-end').textContent = labels.at(-1);
+  byId('return-coverage').textContent = `${performanceData.coveredFundCount} / ${performanceData.fundCount}`;
+  byId('performance-status').textContent = fundSeries
+    ? `${fundSeries.shareClass} net return series available. Source dated ${fundSeries.sourceDate}.`
+    : 'No verified public fund return series for this selection. Chart shows BTC market context only.';
+  byId('benchmark-source').replaceChildren(makeLink(`BTC-USD daily close · Coinbase Exchange · retrieved ${performanceData.benchmark.retrievedAt} ↗`, performanceData.benchmark.sourceUrl));
+  byId('performance-chart-label').textContent = 'BTC / USD MARKET PRICE INDEX · START = 100';
+  document.querySelectorAll('[data-period]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.period) === selectedPeriod)));
+}
+
+function renderResearch(data, region = 'All') {
+  const filters = byId('research-filters');
+  filters.replaceChildren();
+  const regions = ['All', 'United States', 'New York City', 'Switzerland', 'Lisbon', 'Portugal', 'Germany', 'Location unverified'];
+  regions.forEach(name => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = name;
+    button.className = name === region ? 'active' : '';
+    button.addEventListener('click', () => renderResearch(data, name));
+    filters.append(button);
+  });
+  const visible = region === 'All' ? data.candidates : data.candidates.filter(item => item.region === region);
+  byId('research-summary').textContent = `${data.candidates.length} / ${data.target} studies · evidence ranked`;
+  const list = byId('research-list');
+  list.replaceChildren();
+  visible.forEach((item, index) => {
+    const row = document.createElement('article');
+    row.className = 'research-row';
+    const meta = document.createElement('span');
+    meta.textContent = `${String(index + 1).padStart(2, '0')} / ${item.region} / ${item.manager || 'Manager source'}`;
+    const title = document.createElement('h4');
+    title.textContent = item.name;
+    const note = document.createElement('p');
+    note.textContent = item.evidence;
+    row.append(meta, title, note, makeLink('View manager fund page ↗', item.managerUrl));
+    list.append(row);
+  });
+  if (!visible.length) { const empty = document.createElement('p'); empty.className = 'research-empty'; empty.textContent = 'No manager-confirmed study candidates with location evidence in this region yet.'; list.append(empty); }
+  byId('research-status').textContent = data.warning;
+}
+
+async function runResearch() {
+  const button = byId('research-button');
+  button.disabled = true;
+  button.textContent = 'RESEARCHING…';
+  byId('research-results').hidden = false;
+  byId('research-status').textContent = 'Checking manager fund pages and ranking the evidence…';
+  try {
+    const response = await fetch('/api/research');
+    if (!response.ok) throw new Error(`Research service returned ${response.status}`);
+    renderResearch(await response.json());
+  } catch (error) {
+    byId('research-status').textContent = `Research could not complete: ${error.message}`;
+  } finally {
+    button.disabled = false;
+    button.innerHTML = 'FIND NEW FUNDS <span>↗</span>';
+  }
+}
+
 function calculate(event) {
   if (event) event.preventDefault();
   const query = new URLSearchParams(new FormData(byId('projection-form')));
@@ -143,12 +239,19 @@ function calculate(event) {
 }
 
 async function start() {
+  byId('research-button').addEventListener('click', runResearch);
+  byId('performance-fund').addEventListener('change', event => { selectedFund = event.target.value; renderPerformance(); });
+  document.querySelectorAll('[data-period]').forEach(button => button.addEventListener('click', () => { selectedPeriod = Number(button.dataset.period); renderPerformance(); }));
   byId('projection-form').addEventListener('submit', calculate);
   calculate();
   try {
-    const [fundResponse, chartResponse] = await Promise.all([fetch('/data/funds.json'), fetch('/data/visualizations.json')]);
-    if (!fundResponse.ok || !chartResponse.ok) throw new Error('Unable to load verified fund data.');
-    const [funds, charts] = await Promise.all([fundResponse.json(), chartResponse.json()]);
+    const [fundResponse, chartResponse, performanceResponse] = await Promise.all([fetch('/data/funds.json'), fetch('/data/visualizations.json'), fetch('/data/performance.json')]);
+    if (!fundResponse.ok || !chartResponse.ok || !performanceResponse.ok) throw new Error('Unable to load verified fund data.');
+    const [funds, charts, performance] = await Promise.all([fundResponse.json(), chartResponse.json(), performanceResponse.json()]);
+    performanceData = performance;
+    for (const fund of funds.funds) { const option = document.createElement('option'); option.value = fund.id; option.textContent = fund.name; byId('performance-fund').append(option); }
+    selectedFund = funds.funds[0].id;
+    renderPerformance();
     renderFunds(funds, charts);
   } catch (cause) {
     byId('fund-error').textContent = cause.message;
