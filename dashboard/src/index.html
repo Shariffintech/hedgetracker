@@ -15,6 +15,7 @@
       <nav aria-label="Main navigation">
         <a class="active" href="#overview">▦ <span>Overview</span></a>
         <a href="#funds">◈ <span>Funds</span></a>
+        <a href="#discovery">⌕ <span>Discovery</span></a>
         <a href="#modeler">⌁ <span>Scenario modeler</span></a>
       </nav>
       <div class="sidebar-foot"><span class="status-dot"></span> Demo environment<br><small>Illustrative data only</small></div>
@@ -47,6 +48,13 @@
       <section class="panel funds-panel" id="funds" aria-labelledby="funds-title">
         <div class="panel-head"><div><span class="eyebrow">FUND UNIVERSE</span><h2 id="funds-title">Tracked funds</h2></div><span class="subtle">Sample records</span></div>
         <div class="table-wrap"><table><thead><tr><th>FUND</th><th>STRATEGY</th><th>ASSETS</th><th>YTD RETURN</th><th>30D CHANGE</th><th>RISK</th></tr></thead><tbody id="fund-rows"></tbody></table></div>
+      </section>
+      <section class="panel discovery" id="discovery" aria-labelledby="discovery-title">
+        <div class="panel-head"><div><span class="eyebrow">OPENBB + SEC RESEARCH</span><h2 id="discovery-title">New fund leads</h2></div><span id="discovery-count" class="subtle">Loading…</span></div>
+        <p class="discovery-note">Recent Form D filings are research leads. Operating status, fund assets, and returns require separate fund-specific evidence.</p>
+        <p id="discovery-source-errors" class="error" role="status"></p>
+        <div id="discovery-list" class="discovery-list" aria-live="polite"></div>
+        <p id="discovery-updated" class="discovery-updated"></p>
       </section>
       <section class="panel modeler" id="modeler" aria-labelledby="modeler-title">
         <div class="panel-head"><div><span class="eyebrow">PLANNING TOOL</span><h2 id="modeler-title">Scenario modeler</h2></div><span class="subtle">Hypothetical annual compounding</span></div>

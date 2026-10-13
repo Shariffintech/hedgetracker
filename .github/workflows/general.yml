@@ -16,6 +16,8 @@ jobs:
       - name: Run tests
         working-directory: dashboard
         run: cargo test
+      - name: Test discovery adapter
+        run: python3 -m unittest discover -s pipeline -p 'test_*.py'
 
   fmt:
     name: Rustfmt

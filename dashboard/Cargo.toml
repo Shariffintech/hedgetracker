@@ -2,5 +2,8 @@
 name = "hedgetracker"
 version = "0.1.0"
 edition = "2021"
+default-run = "hedgetracker"
 
 [dependencies]
+serde_json = "1.0.151"
+chrono = { version = "0.4.45", default-features = false, features = ["clock", "std"] }

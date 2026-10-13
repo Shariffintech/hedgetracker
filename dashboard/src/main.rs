@@ -1,4 +1,6 @@
+use chrono::{DateTime, Utc};
 use std::env;
+use std::fs;
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 use std::thread;
@@ -58,6 +60,18 @@ fn handle(mut stream: TcpStream) -> std::io::Result<()> {
                 SCRIPT.to_string(),
             ),
             "/api/funds" => ("200 OK", "application/json; charset=utf-8", funds_json()),
+            "/api/discovery" => {
+                let path = env::var("HEDGETRACKER_DISCOVERY_PATH")
+                    .unwrap_or_else(|_| "data/discovery.json".to_string());
+                match discovery_json(&path, Utc::now()) {
+                    Some(data) => ("200 OK", "application/json; charset=utf-8", data),
+                    _ => (
+                        "503 Service Unavailable",
+                        "application/json; charset=utf-8",
+                        r#"{"error":"No validated discovery report is available"}"#.to_string(),
+                    ),
+                }
+            }
             "/api/projection" => match projection_json(query) {
                 Ok(body) => ("200 OK", "application/json; charset=utf-8", body),
                 Err(message) => (
@@ -79,6 +93,25 @@ fn handle(mut stream: TcpStream) -> std::io::Result<()> {
     );
     stream.write_all(response.as_bytes())?;
     stream.write_all(body.as_bytes())
+}
+
+fn discovery_json(path: &str, now: DateTime<Utc>) -> Option<String> {
+    let mut report: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(path).ok()?).ok()?;
+    let generated = DateTime::parse_from_rfc3339(report["generatedAt"].as_str()?)
+        .ok()?
+        .with_timezone(&Utc);
+    let age = now.signed_duration_since(generated).num_days();
+    let stale = !(-1..=14).contains(&age);
+    report["stale"] = serde_json::Value::Bool(stale);
+    if stale {
+        for candidate in report["candidates"].as_array_mut()? {
+            if candidate["status"] == "verified_active" {
+                candidate["status"] = serde_json::Value::String("stale_review".into());
+            }
+        }
+    }
+    serde_json::to_string(&report).ok()
 }
 
 fn funds_json() -> String {
@@ -136,5 +169,25 @@ mod tests {
         assert!(projection_json("principal=-1&annual_return=10&years=2").is_err());
         assert!(projection_json("principal=100&annual_return=NaN&years=2").is_err());
         assert!(projection_json("principal=100&annual_return=10&years=2.5").is_err());
+    }
+
+    #[test]
+    fn stale_discovery_cannot_claim_active_status() {
+        let path = std::env::temp_dir().join(format!(
+            "hedgetracker-discovery-{}.json",
+            std::process::id()
+        ));
+        fs::write(
+            &path,
+            r#"{"generatedAt":"2026-01-01T00:00:00Z","candidates":[{"status":"verified_active"}]}"#,
+        )
+        .unwrap();
+        let now = chrono::DateTime::parse_from_rfc3339("2026-10-13T00:00:00Z")
+            .unwrap()
+            .with_timezone(&Utc);
+        let report = discovery_json(path.to_str().unwrap(), now).unwrap();
+        fs::remove_file(path).unwrap();
+        assert!(report.contains("\"status\":\"stale_review\""));
+        assert!(report.contains("\"stale\":true"));
     }
 }

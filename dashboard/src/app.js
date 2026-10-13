@@ -115,9 +115,74 @@ async function calculate(event) {
   }
 }
 
+async function renderDiscovery() {
+  const list = byId('discovery-list');
+  try {
+    const response = await fetch('/api/discovery');
+    if (!response.ok) throw new Error('No discovery report is available yet.');
+    const report = await response.json();
+    const candidates = report.candidates || [];
+    if (report.sourceErrors && report.sourceErrors.length) {
+      byId('discovery-source-errors').textContent = `${report.sourceErrors.length} source queries failed. See the discovery report before reviewing these leads.`;
+    }
+    if (report.stale) {
+      byId('discovery-source-errors').textContent += ' This report is older than 14 days; active status has been withdrawn pending refresh.';
+    }
+    const verified = candidates.filter(item => item.status === 'verified_active').length;
+    byId('discovery-count').textContent = `${candidates.length} leads · ${verified} reviewed active`;
+    if (!candidates.length) {
+      list.textContent = 'No recent filings matched the search.';
+      return;
+    }
+    candidates.forEach(item => {
+      const row = document.createElement('article');
+      row.className = 'discovery-item';
+      const details = document.createElement('div');
+      const title = document.createElement('strong');
+      title.textContent = item.fundName;
+      const badge = document.createElement('span');
+      badge.className = 'discovery-status' + (item.status === 'verified_active' ? ' verified' : '');
+      badge.textContent = item.status === 'verified_active' ? 'Reviewed active' : 'Needs review';
+      title.append(badge);
+      const meta = document.createElement('small');
+      meta.textContent = `SEC Form ${item.form} · Filed ${item.filingDate} · CIK ${item.cik}`;
+      const checks = document.createElement('details');
+      checks.className = 'discovery-checks';
+      const summary = document.createElement('summary');
+      const passed = item.checks.filter(check => check.passed).length;
+      summary.textContent = `Credibility checks: ${passed}/${item.checks.length} passed`;
+      checks.append(summary);
+      const checkList = document.createElement('ul');
+      item.checks.forEach(check => {
+        const entry = document.createElement('li');
+        entry.textContent = `${check.passed ? '✓' : '○'} ${check.name}: ${check.explanation}`;
+        checkList.append(entry);
+      });
+      checks.append(checkList);
+      details.append(title, meta, checks);
+      row.append(details);
+      if (item.filingUrl.startsWith('https://www.sec.gov/Archives/')) {
+        const link = document.createElement('a');
+        link.href = item.filingUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = 'View SEC filing ↗';
+        row.append(link);
+      }
+      list.append(row);
+    });
+    const updated = new Date(report.generatedAt);
+    byId('discovery-updated').textContent = `Source: ${report.source}. Searched ${updated.toLocaleString()}.`;
+  } catch (cause) {
+    byId('discovery-count').textContent = 'Unavailable';
+    list.textContent = cause.message;
+  }
+}
+
 async function start() {
   byId('projection-form').addEventListener('submit', calculate);
   calculate();
+  renderDiscovery();
   try {
     const response = await fetch('/api/funds');
     if (!response.ok) throw new Error('Unable to load fund data');

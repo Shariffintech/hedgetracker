@@ -1,2 +1,5 @@
 sol.rtf
 dashboard/target/
+.firecrawl/
+.venv/
+__pycache__/
