@@ -21,14 +21,17 @@ function lineChart(series, width = 600, height = 205) {
   return `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">${grid}${lines}</svg>`;
 }
 
-function renderFunds(data) {
+function renderFunds(data, charts) {
   const funds = data.funds;
   const sum = key => funds.reduce((total, fund) => total + fund[key], 0);
   byId('total-aum').textContent = money(sum('aum'));
   byId('fund-count').textContent = funds.length;
   byId('average-return').textContent = (sum('returnYtd') / funds.length).toFixed(1) + '%';
   byId('average-change').textContent = '+' + (sum('change30d') / funds.length).toFixed(1) + '%';
-  byId('performance-chart').innerHTML = lineChart(funds.map((fund, i) => ({ values: fund.history, color: colors[i] })));
+  byId('performance-chart').innerHTML = lineChart(funds.map((fund, i) => ({
+    values: charts.performance.filter(point => point.fundId === fund.id).map(point => point.index),
+    color: colors[i]
+  })));
   const legend = byId('chart-legend');
   funds.forEach((fund, i) => {
     const item = document.createElement('span');
@@ -104,9 +107,16 @@ async function calculate(event) {
   const error = byId('projection-error');
   error.textContent = '';
   try {
-    const response = await fetch('/api/projection?' + query);
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || 'Projection failed');
+    const principal = Number(query.get('principal'));
+    const annualReturn = Number(query.get('annual_return'));
+    const years = Number(query.get('years'));
+    if (!Number.isFinite(principal) || principal < 0 || principal > 1e9) throw new Error('Starting investment must be between 0 and 1 billion.');
+    if (!Number.isFinite(annualReturn) || annualReturn < -100 || annualReturn > 100) throw new Error('Annual return must be between -100% and 100%.');
+    if (!Number.isInteger(years) || years < 1 || years > 30) throw new Error('Years must be a whole number between 1 and 30.');
+    const result = {
+      principal, years,
+      points: Array.from({ length: years + 1 }, (_, year) => ({ year, value: principal * (1 + annualReturn / 100) ** year }))
+    };
     byId('projected-value').textContent = money(result.points.at(-1).value);
     byId('projection-chart').innerHTML = lineChart([{ values: result.points.map(point => point.value), color: colors[0] }], 360, 85);
     byId('projection-chart').setAttribute('aria-label', `Projected value from ${money(result.principal)} to ${money(result.points.at(-1).value)} over ${result.years} years`);
@@ -115,12 +125,20 @@ async function calculate(event) {
   }
 }
 
-async function renderDiscovery() {
+async function renderDiscovery(charts) {
   const list = byId('discovery-list');
   try {
-    const response = await fetch('/api/discovery');
+    const response = await fetch('/data/discovery.json');
     if (!response.ok) throw new Error('No discovery report is available yet.');
     const report = await response.json();
+    const generated = new Date(report.generatedAt);
+    const stale = !Number.isFinite(generated.getTime()) || Math.abs(Date.now() - generated.getTime()) > 14 * 86400000;
+    if (stale) {
+      report.stale = true;
+      (report.candidates || []).forEach(item => {
+        if (item.status === 'verified_active') item.status = 'stale_review';
+      });
+    }
     const candidates = report.candidates || [];
     if (report.sourceErrors && report.sourceErrors.length) {
       byId('discovery-source-errors').textContent = `${report.sourceErrors.length} source queries failed. See the discovery report before reviewing these leads.`;
@@ -130,6 +148,26 @@ async function renderDiscovery() {
     }
     const verified = candidates.filter(item => item.status === 'verified_active').length;
     byId('discovery-count').textContent = `${candidates.length} leads · ${verified} reviewed active`;
+    const filingChart = byId('filing-chart');
+    if (filingChart && charts.filingsByMonth.length) {
+      const max = Math.max(...charts.filingsByMonth.map(item => item.count));
+      charts.filingsByMonth.forEach(item => {
+        const bar = document.createElement('div');
+        bar.className = 'filing-bar';
+        const label = document.createElement('span');
+        label.textContent = item.month;
+        const track = document.createElement('div');
+        track.className = 'bar-track';
+        const fill = document.createElement('div');
+        fill.className = 'bar-fill';
+        fill.style.width = `${item.count / max * 100}%`;
+        track.append(fill);
+        const value = document.createElement('b');
+        value.textContent = item.count;
+        bar.append(label, track, value);
+        filingChart.append(bar);
+      });
+    }
     if (!candidates.length) {
       list.textContent = 'No recent filings matched the search.';
       return;
@@ -182,13 +220,17 @@ async function renderDiscovery() {
 async function start() {
   byId('projection-form').addEventListener('submit', calculate);
   calculate();
-  renderDiscovery();
   try {
-    const response = await fetch('/api/funds');
-    if (!response.ok) throw new Error('Unable to load fund data');
-    renderFunds(await response.json());
+    const [fundResponse, chartResponse] = await Promise.all([
+      fetch('/data/funds.json'), fetch('/data/visualizations.json')
+    ]);
+    if (!fundResponse.ok || !chartResponse.ok) throw new Error('Unable to load dashboard data');
+    const [funds, charts] = await Promise.all([fundResponse.json(), chartResponse.json()]);
+    renderFunds(funds, charts);
+    renderDiscovery(charts);
   } catch (cause) {
     byId('fund-rows').textContent = cause.message;
+    byId('discovery-count').textContent = 'Unavailable';
   }
 }
 start();

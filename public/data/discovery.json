@@ -1,0 +1,711 @@
+{
+  "candidates": [
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "2068321",
+      "filingDate": "2026-10-07",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0002068321/000206832126000001/primary_doc.xml",
+      "form": "D/A",
+      "fundName": "Franklin Templeton Digital Asset Frontier Fund, Ltd.",
+      "managerCandidates": [
+        {
+          "crd": "140432",
+          "name": "FRANKLIN TEMPLETON FUND ADVISER, LLC",
+          "secNumber": "801-66785",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "111364",
+          "name": "FRANKLIN TEMPLETON INVESTMENTS CORP.",
+          "secNumber": "801-58185",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "117384",
+          "name": "FRANKLIN TEMPLETON INSTITUTIONAL, LLC",
+          "secNumber": "801-60684",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "104517",
+          "name": "FRANKLIN ADVISERS, INC.",
+          "secNumber": "801-26292",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "163487",
+          "name": "FRANKLIN TEMPLETON INVESTMENTS (ME) LIMITED",
+          "secNumber": "801-77965",
+          "status": "INACTIVE"
+        }
+      ],
+      "managerUrl": "",
+      "matchedQuery": "digital asset",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    },
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "1902976",
+      "filingDate": "2026-09-09",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0001902976/000090514826004124/primary_doc.xml",
+      "form": "D/A",
+      "fundName": "Brevan Howard Digital Asset Multi-Strategy Fund Ltd",
+      "managerCandidates": [
+        {
+          "crd": "323961",
+          "name": "BREVAN HOWARD (TEL AVIV) LTD",
+          "secNumber": "802-127291",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "161291",
+          "name": "BREVAN HOWARD (ISRAEL) LIMITED",
+          "secNumber": "802-75230",
+          "status": "INACTIVE"
+        },
+        {
+          "crd": "321190",
+          "name": "BREVAN HOWARD CAYMAN SEZC LTD",
+          "secNumber": "802-130373",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "286012",
+          "name": "BREVAN HOWARD PRIVATE LIMITED",
+          "secNumber": "802-108706",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "161287",
+          "name": "BREVAN HOWARD (HONG KONG) LIMITED",
+          "secNumber": "802-75001",
+          "status": "ACTIVE"
+        }
+      ],
+      "managerUrl": "",
+      "matchedQuery": "digital asset",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    },
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "1902977",
+      "filingDate": "2026-09-09",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0001902977/000090514826004123/primary_doc.xml",
+      "form": "D/A",
+      "fundName": "Brevan Howard Digital Asset Multi-Strategy Fund, L.P.",
+      "managerCandidates": [
+        {
+          "crd": "323961",
+          "name": "BREVAN HOWARD (TEL AVIV) LTD",
+          "secNumber": "802-127291",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "161291",
+          "name": "BREVAN HOWARD (ISRAEL) LIMITED",
+          "secNumber": "802-75230",
+          "status": "INACTIVE"
+        },
+        {
+          "crd": "321190",
+          "name": "BREVAN HOWARD CAYMAN SEZC LTD",
+          "secNumber": "802-130373",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "286012",
+          "name": "BREVAN HOWARD PRIVATE LIMITED",
+          "secNumber": "802-108706",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "161287",
+          "name": "BREVAN HOWARD (HONG KONG) LIMITED",
+          "secNumber": "802-75001",
+          "status": "ACTIVE"
+        }
+      ],
+      "managerUrl": "",
+      "matchedQuery": "digital asset",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    },
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "2152893",
+      "filingDate": "2026-09-08",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0002152893/000215289326000001/primary_doc.xml",
+      "form": "D",
+      "fundName": "Digital Asset Strategies I, LP",
+      "managerCandidates": [
+        {
+          "crd": "336113",
+          "name": "51QUID DIGITAL ASSETS",
+          "secNumber": "802-132663",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "321173",
+          "name": "TFG DIGITAL ASSETS LLC",
+          "secNumber": "802-125983",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "316951",
+          "name": "RUNA DIGITAL ASSETS, LLC",
+          "secNumber": null,
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "305726",
+          "name": "WAVE DIGITAL ASSETS LLC",
+          "secNumber": "801-121282",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "339627",
+          "name": "3IQ DIGITAL ASSETS (US) INC.",
+          "secNumber": "802-135379",
+          "status": "ACTIVE"
+        }
+      ],
+      "managerUrl": "",
+      "matchedQuery": "digital asset",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    },
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "2152894",
+      "filingDate": "2026-09-08",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0002152894/000215289426000001/primary_doc.xml",
+      "form": "D",
+      "fundName": "Digital Asset Special Investments I, LP",
+      "managerCandidates": [
+        {
+          "crd": "336113",
+          "name": "51QUID DIGITAL ASSETS",
+          "secNumber": "802-132663",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "321173",
+          "name": "TFG DIGITAL ASSETS LLC",
+          "secNumber": "802-125983",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "316951",
+          "name": "RUNA DIGITAL ASSETS, LLC",
+          "secNumber": null,
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "305726",
+          "name": "WAVE DIGITAL ASSETS LLC",
+          "secNumber": "801-121282",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "339627",
+          "name": "3IQ DIGITAL ASSETS (US) INC.",
+          "secNumber": "802-135379",
+          "status": "ACTIVE"
+        }
+      ],
+      "managerUrl": "",
+      "matchedQuery": "digital asset",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    },
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "2152772",
+      "filingDate": "2026-08-31",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0002152772/000215277226000001/primary_doc.xml",
+      "form": "D",
+      "fundName": "Alliance Bitcoin Mining Fund I, LP",
+      "managerCandidates": [],
+      "managerUrl": "",
+      "matchedQuery": "bitcoin",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    },
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "2150672",
+      "filingDate": "2026-08-26",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0002150672/000215067226000002/primary_doc.xml",
+      "form": "D",
+      "fundName": "KC Bitcoin Fund I, L.P.",
+      "managerCandidates": [],
+      "managerUrl": "",
+      "matchedQuery": "bitcoin",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    },
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "2072149",
+      "filingDate": "2026-07-23",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0002072149/000207214926000001/primary_doc.xml",
+      "form": "D/A",
+      "fundName": "Validator Digital Asset Fund, LP",
+      "managerCandidates": [
+        {
+          "crd": "341200",
+          "name": "VALIDATOR DIGITAL ASSET MANAGEMENT GP, LLC",
+          "secNumber": null,
+          "status": "ACTIVE"
+        }
+      ],
+      "managerUrl": "",
+      "matchedQuery": "digital asset",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    },
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "1985153",
+      "filingDate": "2026-07-16",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0001985153/000198515326000001/primary_doc.xml",
+      "form": "D/A",
+      "fundName": "OnRamp Bitcoin Statutory Trust",
+      "managerCandidates": [],
+      "managerUrl": "",
+      "matchedQuery": "bitcoin",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    },
+    {
+      "checks": [
+        {
+          "explanation": "Fund name and numeric SEC CIK are required.",
+          "name": "stable SEC identity",
+          "passed": true
+        },
+        {
+          "explanation": "Must link to a Form D filing in SEC EDGAR.",
+          "name": "primary Form D filing",
+          "passed": true
+        },
+        {
+          "explanation": "Filing must be dated within the past two years; recency alone does not prove operation.",
+          "name": "filing recency",
+          "passed": true
+        },
+        {
+          "explanation": "Matched a digital asset query; this is a lead, not a classification.",
+          "name": "digital asset search signal",
+          "passed": true
+        },
+        {
+          "explanation": "A reviewer must link a distinct official manager page to this exact SEC filing.",
+          "name": "manager source",
+          "passed": false
+        },
+        {
+          "explanation": "A dated manager statement naming this fund must be no more than 180 days old and checked against a page snapshot fetched within 14 days.",
+          "name": "current operation",
+          "passed": false
+        },
+        {
+          "explanation": "A named reviewer must approve the evidence.",
+          "name": "human approval",
+          "passed": false
+        }
+      ],
+      "cik": "1868655",
+      "filingDate": "2026-07-15",
+      "filingUrl": "https://www.sec.gov/Archives/edgar/data/0001868655/000186865526000002/primary_doc.xml",
+      "form": "D/A",
+      "fundName": "Neuberger Berman Hedged Cryptocurrency Volatility Fund LLC",
+      "managerCandidates": [
+        {
+          "crd": "2908",
+          "name": "NEUBERGER BERMAN BD LLC",
+          "secNumber": "801-3908",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "284803",
+          "name": "NEUBERGER BERMAN CANADA ULC",
+          "secNumber": "801-108509",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "283654",
+          "name": "NEUBERGER BERMAN AIFM LIMITED",
+          "secNumber": "802-107725",
+          "status": "INACTIVE"
+        },
+        {
+          "crd": "154286",
+          "name": "NEUBERGER BERMAN ASIA LIMITED",
+          "secNumber": "801-71669",
+          "status": "ACTIVE"
+        },
+        {
+          "crd": "162267",
+          "name": "NEUBERGER BERMAN EUROPE LIMITED",
+          "secNumber": "801-78140",
+          "status": "ACTIVE"
+        }
+      ],
+      "managerUrl": "",
+      "matchedQuery": "cryptocurrency",
+      "note": "Form D and Form ADV do not establish fund-level AUM, NAV, or performance.",
+      "operatingAsOf": "",
+      "snapshotFetchedAt": "",
+      "status": "needs_review"
+    }
+  ],
+  "generatedAt": "2026-10-13T01:08:14.936490+00:00",
+  "mode": "research",
+  "source": "OpenBB SEC provider",
+  "sourceErrors": []
+}

@@ -13,6 +13,19 @@ Open [http://127.0.0.1:8080](http://127.0.0.1:8080). Set `HEDGETRACKER_ADDR` to 
 
 For container hosting, the server listens on `0.0.0.0:$PORT` when `PORT` is set. A root `Dockerfile` is included.
 
+## Vercel deployment and Polars charts
+
+Vercel serves the generated `public/` directory. The root `vercel.json` installs Polars and runs `pipeline/build_public.py` at build time, so `/`, `/app.js`, `/style.css`, and `/data/*.json` resolve as static assets. The Rust server continues to serve the same dashboard locally. The scenario calculator runs in the browser for static hosting; the Rust `/api/projection` endpoint remains available locally.
+
+Polars turns the labeled sample performance histories into chart points and aggregates recent SEC filing leads by month and review status. These datasets are in `public/data/visualizations.json`. The sample portfolio figures are still illustrative, and Form D lead counts do not imply current fund operation.
+
+To rebuild the static site locally:
+
+```sh
+python3 -m pip install -r pipeline/requirements-visualization.txt
+python3 pipeline/build_public.py
+```
+
 ## Features
 
 - Portfolio summary, indexed performance comparison, asset allocation, and fund table

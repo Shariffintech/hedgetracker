@@ -60,7 +60,25 @@ fn handle(mut stream: TcpStream) -> std::io::Result<()> {
                 SCRIPT.to_string(),
             ),
             "/api/funds" => ("200 OK", "application/json; charset=utf-8", funds_json()),
+            "/data/funds.json" => ("200 OK", "application/json; charset=utf-8", funds_json()),
+            "/data/visualizations.json" => (
+                "200 OK",
+                "application/json; charset=utf-8",
+                include_str!("../data/visualizations.json").to_string(),
+            ),
             "/api/discovery" => {
+                let path = env::var("HEDGETRACKER_DISCOVERY_PATH")
+                    .unwrap_or_else(|_| "data/discovery.json".to_string());
+                match discovery_json(&path, Utc::now()) {
+                    Some(data) => ("200 OK", "application/json; charset=utf-8", data),
+                    _ => (
+                        "503 Service Unavailable",
+                        "application/json; charset=utf-8",
+                        r#"{"error":"No validated discovery report is available"}"#.to_string(),
+                    ),
+                }
+            }
+            "/data/discovery.json" => {
                 let path = env::var("HEDGETRACKER_DISCOVERY_PATH")
                     .unwrap_or_else(|_| "data/discovery.json".to_string());
                 match discovery_json(&path, Utc::now()) {
@@ -116,7 +134,7 @@ fn discovery_json(path: &str, now: DateTime<Utc>) -> Option<String> {
 
 fn funds_json() -> String {
     // Illustrative records only. This repository has no configured market feed or contract.
-    r#"{"mode":"sample","asOf":"Illustrative data","funds":[{"id":"atlas","name":"Atlas Digital","strategy":"Market neutral","aum":128400000,"returnYtd":12.8,"change30d":2.4,"risk":"Low","allocation":{"BTC":35,"ETH":25,"SOL":15,"Stablecoins":25},"history":[100,102,101,104,105,107,106,109,110,112,111,113]},{"id":"meridian","name":"Meridian Alpha","strategy":"Multi strategy","aum":86300000,"returnYtd":9.6,"change30d":1.8,"risk":"Moderate","allocation":{"BTC":30,"ETH":30,"SOL":20,"Stablecoins":20},"history":[100,99,101,103,102,105,106,105,107,108,108,110]},{"id":"northstar","name":"Northstar Yield","strategy":"Yield focused","aum":57200000,"returnYtd":7.3,"change30d":1.2,"risk":"Moderate","allocation":{"BTC":20,"ETH":40,"SOL":10,"Stablecoins":30},"history":[100,101,102,103,103,104,105,105,106,107,107,108]}]}"#.to_string()
+    include_str!("../data/funds.json").to_string()
 }
 
 fn parameter(query: &str, key: &str) -> Option<f64> {

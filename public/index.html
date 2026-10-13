@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HedgeTracker · Fund intelligence</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">H</span><span>hedgetracker<small>FUND INTELLIGENCE</small></span></div>
+      <p class="nav-caption">WORKSPACE</p>
+      <nav aria-label="Main navigation">
+        <a class="active" href="#overview">▦ <span>Overview</span></a>
+        <a href="#funds">◈ <span>Funds</span></a>
+        <a href="#discovery">⌕ <span>Discovery</span></a>
+        <a href="#modeler">⌁ <span>Scenario modeler</span></a>
+      </nav>
+      <div class="sidebar-foot"><span class="status-dot"></span> Demo environment<br><small>Illustrative data only</small></div>
+    </aside>
+    <main id="overview">
+      <header class="topbar">
+        <div><span class="eyebrow">OVERVIEW / DASHBOARD</span><h1>Portfolio overview</h1><p>A clear view of digital asset fund performance.</p></div>
+        <div class="topbar-right"><span class="demo-tag">● SAMPLE DATA</span><span class="avatar">HT</span></div>
+      </header>
+      <div class="notice"><strong>Demo dashboard</strong><span>Figures below are illustrative. No live fund feed or smart contract is configured.</span></div>
+      <section class="metrics" aria-label="Portfolio metrics">
+        <article class="metric"><span>Total assets tracked</span><strong id="total-aum">—</strong><small>Across sample funds</small></article>
+        <article class="metric"><span>Funds tracked</span><strong id="fund-count">—</strong><small>Illustrative strategies</small></article>
+        <article class="metric"><span>Average YTD return</span><strong id="average-return">—</strong><small>Simple fund average</small></article>
+        <article class="metric"><span>Average 30d change</span><strong id="average-change">—</strong><small>Simple fund average</small></article>
+      </section>
+      <div class="content-grid">
+        <section class="panel performance" aria-labelledby="performance-title">
+          <div class="panel-head"><div><span class="eyebrow">PERFORMANCE</span><h2 id="performance-title">Fund comparison</h2></div><span class="subtle">Indexed to 100</span></div>
+          <div id="performance-chart" class="chart" role="img" aria-label="Sample fund performance chart"></div>
+          <div id="chart-legend" class="legend"></div>
+        </section>
+        <section class="panel allocation" aria-labelledby="allocation-title">
+          <div class="panel-head"><div><span class="eyebrow">EXPOSURE</span><h2 id="allocation-title">Asset allocation</h2></div></div>
+          <label class="field-label" for="fund-select">Select a fund</label>
+          <select id="fund-select"></select>
+          <div id="allocation-bars" class="allocation-bars"></div>
+        </section>
+      </div>
+      <section class="panel funds-panel" id="funds" aria-labelledby="funds-title">
+        <div class="panel-head"><div><span class="eyebrow">FUND UNIVERSE</span><h2 id="funds-title">Tracked funds</h2></div><span class="subtle">Sample records</span></div>
+        <div class="table-wrap"><table><thead><tr><th>FUND</th><th>STRATEGY</th><th>ASSETS</th><th>YTD RETURN</th><th>30D CHANGE</th><th>RISK</th></tr></thead><tbody id="fund-rows"></tbody></table></div>
+      </section>
+      <section class="panel discovery" id="discovery" aria-labelledby="discovery-title">
+        <div class="panel-head"><div><span class="eyebrow">OPENBB + SEC RESEARCH</span><h2 id="discovery-title">New fund leads</h2></div><span id="discovery-count" class="subtle">Loading…</span></div>
+        <p class="discovery-note">Recent Form D filings are research leads. Operating status, fund assets, and returns require separate fund-specific evidence.</p>
+        <p id="discovery-source-errors" class="error" role="status"></p>
+        <div class="filing-summary"><h3>Filings by month</h3><div id="filing-chart" class="filing-chart" role="img" aria-label="Number of research leads by filing month"></div><small>Counts prepared with Polars from SEC filing dates; a filing is not proof of an active fund.</small></div>
+        <div id="discovery-list" class="discovery-list" aria-live="polite"></div>
+        <p id="discovery-updated" class="discovery-updated"></p>
+      </section>
+      <section class="panel modeler" id="modeler" aria-labelledby="modeler-title">
+        <div class="panel-head"><div><span class="eyebrow">PLANNING TOOL</span><h2 id="modeler-title">Scenario modeler</h2></div><span class="subtle">Hypothetical annual compounding</span></div>
+        <form id="projection-form" class="modeler-form">
+          <label>Starting investment <input name="principal" type="number" min="0" max="1000000000" step="100" value="10000" required></label>
+          <label>Annual return (%) <input name="annual_return" type="number" min="-100" max="100" step="0.1" value="8" required></label>
+          <label>Years <input name="years" type="number" min="1" max="30" step="1" value="5" required></label>
+          <button type="submit">Calculate projection →</button>
+        </form>
+        <p id="projection-error" class="error" role="alert"></p>
+        <div class="projection-result"><div><span>Projected value</span><strong id="projected-value">—</strong><small>Before fees, taxes, and withdrawals</small></div><div id="projection-chart" class="mini-chart" role="img" aria-label="Projection over time"></div></div>
+        <p class="disclaimer">A scenario is an illustration, not a forecast or investment recommendation.</p>
+      </section>
+      <footer>HedgeTracker · Rust dashboard prototype</footer>
+    </main>
+  </div>
+</body>
+</html>

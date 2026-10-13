@@ -1,0 +1,210 @@
+{
+  "source": "Polars 1.34.0",
+  "performance": [
+    {
+      "fundId": "atlas",
+      "period": 0,
+      "index": 100
+    },
+    {
+      "fundId": "atlas",
+      "period": 1,
+      "index": 102
+    },
+    {
+      "fundId": "atlas",
+      "period": 2,
+      "index": 101
+    },
+    {
+      "fundId": "atlas",
+      "period": 3,
+      "index": 104
+    },
+    {
+      "fundId": "atlas",
+      "period": 4,
+      "index": 105
+    },
+    {
+      "fundId": "atlas",
+      "period": 5,
+      "index": 107
+    },
+    {
+      "fundId": "atlas",
+      "period": 6,
+      "index": 106
+    },
+    {
+      "fundId": "atlas",
+      "period": 7,
+      "index": 109
+    },
+    {
+      "fundId": "atlas",
+      "period": 8,
+      "index": 110
+    },
+    {
+      "fundId": "atlas",
+      "period": 9,
+      "index": 112
+    },
+    {
+      "fundId": "atlas",
+      "period": 10,
+      "index": 111
+    },
+    {
+      "fundId": "atlas",
+      "period": 11,
+      "index": 113
+    },
+    {
+      "fundId": "meridian",
+      "period": 0,
+      "index": 100
+    },
+    {
+      "fundId": "meridian",
+      "period": 1,
+      "index": 99
+    },
+    {
+      "fundId": "meridian",
+      "period": 2,
+      "index": 101
+    },
+    {
+      "fundId": "meridian",
+      "period": 3,
+      "index": 103
+    },
+    {
+      "fundId": "meridian",
+      "period": 4,
+      "index": 102
+    },
+    {
+      "fundId": "meridian",
+      "period": 5,
+      "index": 105
+    },
+    {
+      "fundId": "meridian",
+      "period": 6,
+      "index": 106
+    },
+    {
+      "fundId": "meridian",
+      "period": 7,
+      "index": 105
+    },
+    {
+      "fundId": "meridian",
+      "period": 8,
+      "index": 107
+    },
+    {
+      "fundId": "meridian",
+      "period": 9,
+      "index": 108
+    },
+    {
+      "fundId": "meridian",
+      "period": 10,
+      "index": 108
+    },
+    {
+      "fundId": "meridian",
+      "period": 11,
+      "index": 110
+    },
+    {
+      "fundId": "northstar",
+      "period": 0,
+      "index": 100
+    },
+    {
+      "fundId": "northstar",
+      "period": 1,
+      "index": 101
+    },
+    {
+      "fundId": "northstar",
+      "period": 2,
+      "index": 102
+    },
+    {
+      "fundId": "northstar",
+      "period": 3,
+      "index": 103
+    },
+    {
+      "fundId": "northstar",
+      "period": 4,
+      "index": 103
+    },
+    {
+      "fundId": "northstar",
+      "period": 5,
+      "index": 104
+    },
+    {
+      "fundId": "northstar",
+      "period": 6,
+      "index": 105
+    },
+    {
+      "fundId": "northstar",
+      "period": 7,
+      "index": 105
+    },
+    {
+      "fundId": "northstar",
+      "period": 8,
+      "index": 106
+    },
+    {
+      "fundId": "northstar",
+      "period": 9,
+      "index": 107
+    },
+    {
+      "fundId": "northstar",
+      "period": 10,
+      "index": 107
+    },
+    {
+      "fundId": "northstar",
+      "period": 11,
+      "index": 108
+    }
+  ],
+  "filingsByMonth": [
+    {
+      "month": "2026-07",
+      "count": 3
+    },
+    {
+      "month": "2026-08",
+      "count": 2
+    },
+    {
+      "month": "2026-09",
+      "count": 4
+    },
+    {
+      "month": "2026-10",
+      "count": 1
+    }
+  ],
+  "reviewStatus": [
+    {
+      "status": "needs_review",
+      "count": 10
+    }
+  ],
+  "sampleData": true
+}

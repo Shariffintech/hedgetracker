@@ -1,0 +1,6 @@
+.vercel/
+.vercel-build-venv/
+.env.local
+dashboard/target/
+test-ledger/
+.firecrawl/
