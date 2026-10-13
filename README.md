@@ -1,25 +1,21 @@
 # HedgeTracker
 
-A small Rust web dashboard for exploring illustrative crypto hedge fund data. The server uses only the Rust standard library and serves the dashboard, sample fund API, and a scenario projection API.
+A Rust-backed digital-asset fund research dashboard with a static Vercel build. The directory lists manager-confirmed fund products with linked public filing records. It does not display unsourced fund AUM or performance.
 
-## Run
+## Run locally
 
 ```sh
 cd dashboard
 cargo run
 ```
 
-Open [http://127.0.0.1:8080](http://127.0.0.1:8080). Set `HEDGETRACKER_ADDR` to bind a different address, for example `HEDGETRACKER_ADDR=127.0.0.1:8081 cargo run`.
+Open http://127.0.0.1:8080. Set `HEDGETRACKER_ADDR` for another address. The Rust server provides `/api/funds`, `/api/discovery`, and `/api/projection`.
 
-For container hosting, the server listens on `0.0.0.0:$PORT` when `PORT` is set. A root `Dockerfile` is included.
+## Confirmed fund directory
 
-## Vercel deployment and Polars charts
+The three displayed funds were checked against current manager product pages and exact-name public filings on 2026-10-12. [The evidence review](pipeline/evidence/confirmed-funds.md) records the sources. “Confirmed” means fund identity and public manager listing. It does not establish AUM, audited returns, or subscription status. After 14 days, the UI marks source confirmation for recheck.
 
-Vercel serves the generated `public/` directory. The root `vercel.json` installs Polars and runs `pipeline/build_public.py` at build time, so `/`, `/app.js`, `/style.css`, and `/data/*.json` resolve as static assets. The Rust server continues to serve the same dashboard locally. The scenario calculator runs in the browser for static hosting; the Rust `/api/projection` endpoint remains available locally.
-
-Vercel also preserves the original API paths: `/api/funds` and `/api/discovery` rewrite to published JSON, while `/api/projection` runs as a small Vercel function with the same input limits as the Rust endpoint.
-
-Polars turns the labeled sample performance histories into chart points and aggregates recent SEC filing leads by month and review status. These datasets are in `public/data/visualizations.json`. The sample portfolio figures are still illustrative, and Form D lead counts do not imply current fund operation.
+The main fund cards show manager and strategy. Opening a card reveals manager evidence and filing details. The visual theme uses a dark editorial layout inspired by the supplied quant learning lab reference. Polars prepares the strategy mix chart from the confirmed fund data during the Vercel build.
 
 To rebuild the static site locally:
 
@@ -28,22 +24,13 @@ python3 -m pip install -r pipeline/requirements-visualization.txt
 python3 pipeline/build_public.py
 ```
 
-## Features
+Vercel serves `public/` through `vercel.json`. The original API paths also work there: `/api/funds` and `/api/discovery` are rewrites, and `/api/projection` is a Vercel function.
 
-- Portfolio summary, indexed performance comparison, asset allocation, and fund table
-- Scenario modeler with annual compounding
-- `GET /api/funds` and `GET /api/projection?principal=10000&annual_return=8&years=5`
-- Input validation for projection requests
+## New fund research pipeline
 
-## Data status
+OpenBB searches recent SEC Form D filings for leads. The Rust `fund_agent` evaluates identities, filing recency, source links, operating evidence, and human review. Leads stay separate from the confirmed directory until manager and filing evidence is checked. The existing [agent runbook](pipeline/AGENT.md) and [weekly GitHub Action](.github/workflows/fund-discovery.yml) describe this process.
 
-The portfolio fund names and figures are sample data. The original repository did not include a working market feed, deployed contract address, or contract interface, so this version does **not** claim to show live performance. Connect a real data source before using it to make investment decisions.
-
-## Fund discovery pipeline
-
-The **Discovery** panel is a research queue, separate from the sample portfolio. It shows recent SEC Form D filings found through [OpenBB's SEC search](https://docs.openbb.co/odp/python/reference/sec/full_text_search). A Form D filing is an offering notice, not proof that a fund is currently operating. The dashboard shows no fund performance or fund AUM from these filings.
-
-To refresh the queue locally:
+To refresh leads:
 
 ```sh
 python3 -m venv .venv
@@ -52,12 +39,10 @@ python3 -m venv .venv
 cargo run --manifest-path dashboard/Cargo.toml --bin fund_agent -- dashboard/data/intake.json pipeline/reviews.json dashboard/data/discovery.json
 ```
 
-The [agent runbook](pipeline/AGENT.md) describes the source checks and review gate. The [weekly GitHub Action](.github/workflows/fund-discovery.yml) produces a downloadable intake and evaluation report; it does not silently add candidates to the tracked sample portfolio. OpenBB adviser matches are possible leads only. See [OpenBB adviser data](https://docs.openbb.co/odp/python/reference/sec/adviser_universe) and [SEC Form D data caveats](https://www.sec.gov/data-research/sec-markets-data/form-d-data-sets).
-
 ## Check
 
 ```sh
-cd dashboard
-cargo test
-cargo fmt --check
+cargo test --manifest-path dashboard/Cargo.toml
+cargo fmt --manifest-path dashboard/Cargo.toml --check
+python3 pipeline/build_public.py
 ```

@@ -1,93 +1,74 @@
 {
-  "mode": "sample",
-  "asOf": "Illustrative data",
+  "mode": "manager_confirmed",
+  "verifiedAt": "2026-10-12",
+  "definition": "The named fund appears on its manager's current product page and a matching public filing identifies the legal fund. This does not verify AUM, returns, or whether new subscriptions are open.",
   "funds": [
     {
-      "id": "atlas",
-      "name": "Atlas Digital",
-      "strategy": "Market neutral",
-      "aum": 128400000,
-      "returnYtd": 12.8,
-      "change30d": 2.4,
-      "risk": "Low",
-      "allocation": {
-        "BTC": 35,
-        "ETH": 25,
-        "SOL": 15,
-        "Stablecoins": 25
+      "id": "pantera-liquid",
+      "name": "Pantera Liquid Token Fund",
+      "legalName": "Pantera Liquid Token Fund LP",
+      "manager": "Pantera Capital",
+      "strategy": "Liquid tokens",
+      "description": "Discretionary, actively managed exposure to a diversified portfolio of liquid digital assets.",
+      "managerEvidence": {
+        "url": "https://panteracapital.com/funds/liquid-token-fund/",
+        "detail": "Pantera's current fund page names the Liquid Token Fund and describes its discretionary liquid-token strategy."
       },
-      "history": [
-        100,
-        102,
-        101,
-        104,
-        105,
-        107,
-        106,
-        109,
-        110,
-        112,
-        111,
-        113
-      ]
+      "filing": {
+        "type": "Form D/A",
+        "date": "2021-11-05",
+        "cik": "1709454",
+        "entity": "Pantera Liquid Token Fund LP",
+        "url": "https://www.sec.gov/Archives/edgar/data/1709454/000090266421004755/0000902664-21-004755-index.html",
+        "detail": "The filing identifies the legal fund and its exempt offering. It does not establish returns or AUM."
+      },
+      "recentFiling": {
+        "type": "Schedule 13D/A",
+        "date": "2026-09-15",
+        "entity": "Pantera Liquid Token Fund LP",
+        "url": "https://www.sec.gov/Archives/edgar/data/1610853/000121390026100250/xslSCHEDULE_13D_X02/primary_doc.xml",
+        "detail": "A later securities holding report names the fund as a reporting person. The archive CIK belongs to the issuer in that report, not the fund."
+      }
     },
     {
-      "id": "meridian",
-      "name": "Meridian Alpha",
-      "strategy": "Multi strategy",
-      "aum": 86300000,
-      "returnYtd": 9.6,
-      "change30d": 1.8,
-      "risk": "Moderate",
-      "allocation": {
-        "BTC": 30,
-        "ETH": 30,
-        "SOL": 20,
-        "Stablecoins": 20
+      "id": "galaxy-liquid",
+      "name": "Galaxy Liquid Crypto Fund",
+      "legalName": "Galaxy Liquid Crypto Fund LP",
+      "manager": "Galaxy Asset Management",
+      "strategy": "Active liquid crypto",
+      "description": "Actively managed exposure across small, mid, and large-cap digital assets.",
+      "managerEvidence": {
+        "url": "https://am.galaxy.com/galaxy-liquid-crypto-fund/",
+        "detail": "Galaxy's current product page names the Liquid Crypto Fund, describes active management, and provides a fund enquiry route."
       },
-      "history": [
-        100,
-        99,
-        101,
-        103,
-        102,
-        105,
-        106,
-        105,
-        107,
-        108,
-        108,
-        110
-      ]
+      "filing": {
+        "type": "Form D/A",
+        "date": "2024-08-20",
+        "cik": "1938194",
+        "entity": "Galaxy Liquid Crypto Fund LP",
+        "url": "https://www.sec.gov/Archives/edgar/data/1938194/000193819424000002/0001938194-24-000002-index.html",
+        "detail": "The filing identifies the legal fund and exempt offering. It does not establish current subscriptions, returns, or AUM."
+      }
     },
     {
-      "id": "northstar",
-      "name": "Northstar Yield",
-      "strategy": "Yield focused",
-      "aum": 57200000,
-      "returnYtd": 7.3,
-      "change30d": 1.2,
-      "risk": "Moderate",
-      "allocation": {
-        "BTC": 20,
-        "ETH": 40,
-        "SOL": 10,
-        "Stablecoins": 30
+      "id": "nickel-alpha",
+      "name": "Diversified Alpha",
+      "legalName": "Nickel Digital Asset Series Fund LP - Diversified Alpha Series",
+      "manager": "Nickel Digital",
+      "strategy": "Systematic multi-manager",
+      "description": "A non-directional, multi-manager fund using systematic arbitrage and trading strategies.",
+      "managerEvidence": {
+        "url": "https://nickel.digital/investment-funds/",
+        "detail": "Nickel's current investment-funds page names Diversified Alpha and describes the strategy with a fund enquiry route."
       },
-      "history": [
-        100,
-        101,
-        102,
-        103,
-        103,
-        104,
-        105,
-        105,
-        106,
-        107,
-        107,
-        108
-      ]
+      "filing": {
+        "type": "Form D/A",
+        "date": "2024-01-19",
+        "cik": "1901593",
+        "entity": "Nickel Digital Asset Series Fund LP - Diversified Alpha Series",
+        "url": "https://www.sec.gov/Archives/edgar/data/1901593/000190159324000001/0001901593-24-000001-index.htm",
+        "detail": "The filing identifies the legal fund series and exempt offering. It is historical formation evidence."
+      }
     }
   ]
 }

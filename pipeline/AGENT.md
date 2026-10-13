@@ -2,6 +2,12 @@
 
 The agent's job is to find **traditional digital asset hedge fund leads**, then separate current, fund-specific evidence from old filings and manager-level figures. It never labels a search hit or a Form D filing as an active fund by itself.
 
+## Confirmed directory gate
+
+The public `dashboard/data/funds.json` directory is curated separately from the OpenBB lead queue. Add a fund only when (1) a current official manager page names and describes the specific product, (2) a public filing names the matching legal entity or series, and (3) a dated review note records the URLs and what each source actually proves. Run `pipeline/build_public.py`; its validation rejects duplicate IDs, mismatched filing entities, non-SEC filing hosts, and invented performance fields. Refresh the review date only after opening and rechecking the sources. The UI withdraws its current-source badge after 14 days.
+
+Keep filing type and date in the card detail. Do not infer that an old Form D proves current subscriptions. A Schedule 13D archive CIK may identify the issuer whose shares are reported, rather than the fund reporting the holding. Record this distinction explicitly.
+
 ## Run sequence
 
 1. Run `openbb_discover.py` to search recent SEC Form D filings through the [OpenBB SEC provider](https://docs.openbb.co/odp/python/reference/sec/full_text_search). It also queries [OpenBB adviser firms](https://docs.openbb.co/odp/python/reference/sec/adviser_firms) for possible manager matches.
