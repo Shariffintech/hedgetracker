@@ -13,4 +13,5 @@ jobs:
       - uses: actions/checkout@v3
       - uses: taiki-e/install-action@cargo-deny
       - name: Scan for vulnerabilities
+        working-directory: dashboard
         run: cargo deny check advisories

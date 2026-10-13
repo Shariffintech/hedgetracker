@@ -1,100 +1,140 @@
-extern crate ethereum_types;
-extern crate web3;
-extern crate tokio;
+use std::env;
+use std::io::{Read, Write};
+use std::net::{TcpListener, TcpStream};
+use std::thread;
+use std::time::Duration;
 
-use tokio;
-use ethereum_types::Address;
-use web3::contract::{Contract, Options};
-use web3::futures::Future;
-use web3::types::U256;
+const INDEX: &str = include_str!("index.html");
+const STYLE: &str = include_str!("style.css");
+const SCRIPT: &str = include_str!("app.js");
 
-
-#[tokio::main]
-async fn main() -> web3::Result<()> {
-    let mut app = Application::new().unwrap();
-
-    // Define the main window
-    let mut window = Window::new(&app, "Dashboard");
-    window.set_size((800, 600));
-
-    // Define the main container widget
-    let mut container = Container::new();
-    container.set_spacing(10);
-    container.set_padding(10);
-    window.set_child(Some(container));
-
-    // Define a label widget
-    let label1 = Label::new("Widget 1");
-    container.add_child(&label1);
-
-    // Define a progress bar widget
-    let mut progress_bar = ProgressBar::new();
-    progress_bar.set_value(0.5);
-    container.add_child(&progress_bar);
-
-    // Define a button widget
-    let mut button = Button::new("Click me");
-    button.on_click(|_| {
-        println!("Button clicked");
+fn main() -> std::io::Result<()> {
+    let address = env::var("HEDGETRACKER_ADDR").unwrap_or_else(|_| {
+        env::var("PORT")
+            .map(|port| format!("0.0.0.0:{port}"))
+            .unwrap_or_else(|_| "127.0.0.1:8080".into())
     });
-    container.add_child(&button);
-
-    // Show the main window
-    window.show();
-
-    app.run();
-
-
-    // Connect to the Ethereum blockchain
-    let (_eloop, transport) = web3::transports::Http::new("http://localhost:8545").unwrap();
-    let web3 = web3::Web3::new(transport);
-
-    println!("Calling accounts.");
-    let mut accounts = web3.eth().accounts().await?;
-    println!("Accounts: {:?}", accounts);
-    accounts.push("00a329c0648769a73afac7f9381e08fb43dbea72".parse().unwrap());
-
-    println!("Calling balance.");
-    for account in accounts {
-        let balance = web3.eth().balance(account, None).await?;
-        println!("Balance of {:?}: {}", account, balance);
+    let listener = TcpListener::bind(&address)?;
+    println!("HedgeTracker running at http://{address}");
+    for stream in listener.incoming() {
+        match stream {
+            Ok(stream) => {
+                thread::spawn(move || {
+                    if let Err(error) = handle(stream) {
+                        eprintln!("Request failed: {error}");
+                    }
+                });
+            }
+            Err(error) => eprintln!("Connection failed: {error}"),
+        }
     }
-
-    // Deploy the smart contract
-    let contract_address = deploy_contract(web3.clone()).wait().unwrap();
-
-    // Create a new instance of the smart contract
-    let contract = Contract::from_json(
-        web3.eth(),
-        contract_address,
-        include_bytes!("smart_contracts.json"),
-    ).unwrap();
-
-    // Call the smart contract's "get" function
-    let result = contract
-        .call("get", (), contract_address, Options::default(), None)
-        .wait()
-        .unwrap();
-
-    // Print the result
-    println!("Result: {:?}", result);
-
     Ok(())
 }
 
-fn deploy_contract(web3: web3::Web3<web3::transports::Http>) -> Result<Address, Box<dyn std::error::Error + Send + Sync>> {
-    // Define the contract bytecode
-    let bytecode = "0x60606060606060606060606060606060606060606060606060606060606060606";
+fn handle(mut stream: TcpStream) -> std::io::Result<()> {
+    stream.set_read_timeout(Some(Duration::from_secs(5)))?;
+    let mut buffer = [0u8; 8192];
+    let count = stream.read(&mut buffer)?;
+    let request = String::from_utf8_lossy(&buffer[..count]);
+    let first_line = request.lines().next().unwrap_or("");
+    let mut parts = first_line.split_whitespace();
+    let method = parts.next().unwrap_or("");
+    let target = parts.next().unwrap_or("");
+    let (path, query) = target.split_once('?').unwrap_or((target, ""));
 
-    // Deploy the smart contract
-    web3.eth().contract().deploy(bytecode)
-        .send()
-        .map_err(|_| std::error::Error::new(std::io::ErrorKind::Other, "Deployment failed"))
-        .and_then(|transaction| {
-            // Wait for the transaction to be mined
-            transaction
-                .wait()
-                .map(|receipt| receipt.contract_address.unwrap())
-                .map_err(|_| std::error::Error::new(std::io::ErrorKind::Other, "Transaction failed"))
+    let (status, kind, body) = if method != "GET" {
+        (
+            "405 Method Not Allowed",
+            "text/plain; charset=utf-8",
+            "Method not allowed".to_string(),
+        )
+    } else {
+        match path {
+            "/" => ("200 OK", "text/html; charset=utf-8", INDEX.to_string()),
+            "/style.css" => ("200 OK", "text/css; charset=utf-8", STYLE.to_string()),
+            "/app.js" => (
+                "200 OK",
+                "application/javascript; charset=utf-8",
+                SCRIPT.to_string(),
+            ),
+            "/api/funds" => ("200 OK", "application/json; charset=utf-8", funds_json()),
+            "/api/projection" => match projection_json(query) {
+                Ok(body) => ("200 OK", "application/json; charset=utf-8", body),
+                Err(message) => (
+                    "400 Bad Request",
+                    "application/json; charset=utf-8",
+                    format!("{{\"error\":\"{message}\"}}"),
+                ),
+            },
+            _ => (
+                "404 Not Found",
+                "text/plain; charset=utf-8",
+                "Not found".to_string(),
+            ),
+        }
+    };
+    let response = format!(
+        "HTTP/1.1 {status}\r\nContent-Type: {kind}\r\nContent-Length: {}\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nConnection: close\r\n\r\n",
+        body.len()
+    );
+    stream.write_all(response.as_bytes())?;
+    stream.write_all(body.as_bytes())
+}
+
+fn funds_json() -> String {
+    // Illustrative records only. This repository has no configured market feed or contract.
+    r#"{"mode":"sample","asOf":"Illustrative data","funds":[{"id":"atlas","name":"Atlas Digital","strategy":"Market neutral","aum":128400000,"returnYtd":12.8,"change30d":2.4,"risk":"Low","allocation":{"BTC":35,"ETH":25,"SOL":15,"Stablecoins":25},"history":[100,102,101,104,105,107,106,109,110,112,111,113]},{"id":"meridian","name":"Meridian Alpha","strategy":"Multi strategy","aum":86300000,"returnYtd":9.6,"change30d":1.8,"risk":"Moderate","allocation":{"BTC":30,"ETH":30,"SOL":20,"Stablecoins":20},"history":[100,99,101,103,102,105,106,105,107,108,108,110]},{"id":"northstar","name":"Northstar Yield","strategy":"Yield focused","aum":57200000,"returnYtd":7.3,"change30d":1.2,"risk":"Moderate","allocation":{"BTC":20,"ETH":40,"SOL":10,"Stablecoins":30},"history":[100,101,102,103,103,104,105,105,106,107,107,108]}]}"#.to_string()
+}
+
+fn parameter(query: &str, key: &str) -> Option<f64> {
+    query
+        .split('&')
+        .filter_map(|part| part.split_once('='))
+        .find_map(|(name, value)| {
+            if name == key {
+                value.parse::<f64>().ok()
+            } else {
+                None
+            }
         })
+}
+
+fn projection_json(query: &str) -> Result<String, &'static str> {
+    let principal = parameter(query, "principal").ok_or("principal must be a number")?;
+    let annual_return =
+        parameter(query, "annual_return").ok_or("annual_return must be a number")?;
+    let years = parameter(query, "years").ok_or("years must be a number")?;
+    if !principal.is_finite() || !(0.0..=1_000_000_000.0).contains(&principal) {
+        return Err("principal must be between 0 and 1000000000");
+    }
+    if !annual_return.is_finite() || !(-100.0..=100.0).contains(&annual_return) {
+        return Err("annual_return must be between -100 and 100");
+    }
+    if !years.is_finite() || years.fract() != 0.0 || !(1.0..=30.0).contains(&years) {
+        return Err("years must be a whole number between 1 and 30");
+    }
+    let mut points = Vec::with_capacity(years as usize + 1);
+    for year in 0..=years as usize {
+        let value = principal * (1.0 + annual_return / 100.0).powi(year as i32);
+        points.push(format!("{{\"year\":{year},\"value\":{value:.2}}}"));
+    }
+    Ok(format!("{{\"principal\":{principal},\"annualReturn\":{annual_return},\"years\":{years},\"points\":[{}]}}", points.join(",")))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn projection_compounds_annually() {
+        let result = projection_json("principal=1000&annual_return=10&years=2").unwrap();
+        assert!(result.contains("\"year\":2,\"value\":1210.00"));
+    }
+
+    #[test]
+    fn projection_rejects_invalid_inputs() {
+        assert!(projection_json("principal=-1&annual_return=10&years=2").is_err());
+        assert!(projection_json("principal=100&annual_return=NaN&years=2").is_err());
+        assert!(projection_json("principal=100&annual_return=10&years=2.5").is_err());
+    }
 }

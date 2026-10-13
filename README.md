@@ -1,66 +1,33 @@
-HedgeTracker - A live dashboard for crypto hedge fund data
+# HedgeTracker
 
-HedgeTracker is a real-time dashboard that displays live data from hedge funds. The dashboard provides a visual representation of the performance of various crypto hedge funds and helps users make informed decisions about investments.
+A small Rust web dashboard for exploring illustrative crypto hedge fund data. The server uses only the Rust standard library and serves the dashboard, sample fund API, and a scenario projection API.
 
-Features
+## Run
 
-Real-time data display
-Interactive graphs and charts
-Smart contract integration for up-to-date information
-Easy-to-use interface for monitoring crypto hedge fund performance
-
-
-Swim Lane:
+```sh
+cd dashboard
+cargo run
 ```
-+------------------------+    +------------------------+
-|        Smart           |    |      Hedge Funds       |
-|      Contracts         |    |                        |
-|                        |    |  +------------------+  |
-|  +------------------+  |    |  |      Fund 1      |  |
-|  |    Fund Data     |<---------+------------------+  |
-|  +------------------+  |    |  |      Fund 2      |  |
-|                        |    |  +------------------+  |
-+------------------------+    |           ...          |
-                              |  +------------------+  |
-                              |  |      Fund n      |  |
-                              |  +------------------+  |
-                              +------------------------+
-                                           |
-                                           |
-                                           |
-                                           v
-+------------------------+    +------------------------+
-|        HedgeTracker    |    |      User Interface    |
-|                        |    |                        |
-|  +------------------+  |    |  +------------------+  |
-|  |  Solana Provider |<----->|     Live Data     |  |
-|  +------------------+  |    |  +------------------+  |
-|                        |    |  |  Visualizations  |  |
-|                        |    |  +------------------+  |
-+------------------------+    +------------------------+
+
+Open [http://127.0.0.1:8080](http://127.0.0.1:8080). Set `HEDGETRACKER_ADDR` to bind a different address, for example `HEDGETRACKER_ADDR=127.0.0.1:8081 cargo run`.
+
+For container hosting, the server listens on `0.0.0.0:$PORT` when `PORT` is set. A root `Dockerfile` is included.
+
+## Features
+
+- Portfolio summary, indexed performance comparison, asset allocation, and fund table
+- Scenario modeler with annual compounding
+- `GET /api/funds` and `GET /api/projection?principal=10000&annual_return=8&years=5`
+- Input validation for projection requests
+
+## Data status
+
+The fund names and figures are sample data. The original repository did not include a working market feed, deployed contract address, or contract interface, so this version does **not** claim to show live performance. Connect a real data source before using it to make investment decisions.
+
+## Check
+
+```sh
+cd dashboard
+cargo test
+cargo fmt --check
 ```
-Tutorial <Comming Soon>
-  
-  
-Screenshots
-
-Todo - A screenshot of the HedgeTracker dashboard
-
-Todo - A close-up of the interactive graphs and charts
-
-Todo - An example of the smart contract integration in action
-
-
-
-We welcome contributions from the community. If you would like to contribute to HedgeTracker, please follow these guidelines:
-
-Fork the repository
-Create a new branch for your changes
-Submit a pull request for review
-License
-
-
-HedgeTracker is released under the MIT license. 
-  See LICENSE for more information.
-
-

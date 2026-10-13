@@ -14,6 +14,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - name: Run tests
+        working-directory: dashboard
         run: cargo test
 
   fmt:
@@ -25,6 +26,7 @@ jobs:
         with:
           components: rustfmt
       - name: Enforce formatting
+        working-directory: dashboard
         run: cargo fmt --check
 
   clippy:
@@ -37,6 +39,7 @@ jobs:
           components: clippy
       - uses: Swatinem/rust-cache@v2
       - name: Linting
+        working-directory: dashboard
         run: cargo clippy -- -D warnings
 
   coverage:
@@ -49,5 +52,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Generate code coverage
+        working-directory: dashboard
         run: |
           cargo tarpaulin --verbose --workspace

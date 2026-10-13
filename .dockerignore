@@ -1,0 +1,5 @@
+.git
+.github
+dashboard/target
+test-ledger
+**/.DS_Store
