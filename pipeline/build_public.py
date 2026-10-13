@@ -32,20 +32,28 @@ def build_visualizations(funds: dict, discovery: dict) -> dict:
 
 
 def build_performance(funds: dict, source: dict, market: dict) -> dict:
-    known = {fund["id"] for fund in funds["funds"]}
+    known = {fund["id"]: fund for fund in funds["funds"]}
     series = []
     for item in source["series"]:
         assert item["fundId"] in known
         assert item["shareClass"] and item["returnBasis"] == "net"
         assert item["sourceType"] in ("manager", "administrator")
-        assert item["sourceDate"] <= date.today().isoformat()
+        disclosed_on = date.fromisoformat(item["sourceDate"])
+        assert disclosed_on <= date.today()
         source_url = urlparse(item["sourceUrl"])
         assert source_url.scheme == "https" and source_url.hostname
+        if item["sourceType"] == "manager":
+            assert source_url.hostname == urlparse(known[item["fundId"]]["managerEvidence"]["url"]).hostname
+        else:
+            assert item.get("administratorName")
+            administrator = urlparse(item.get("administratorEvidenceUrl", ""))
+            assert administrator.scheme == "https" and administrator.hostname == source_url.hostname
         points = pl.DataFrame(item["points"], schema={"date": pl.String, "returnPct": pl.Float64})
         assert points.height >= 2
         assert points.select(pl.col("date").n_unique()).item() == points.height
         assert points.select(pl.col("returnPct").is_finite().all()).item()
-        assert all(date.fromisoformat(day) <= date.today() for day in points["date"])
+        assert points.select((pl.col("returnPct") > -100).all()).item()
+        assert all(date.fromisoformat(day) <= disclosed_on for day in points["date"])
         series.append({**item, "points": points.sort("date").to_dicts()})
     market_rows = pl.DataFrame(market["rows"], schema={"date": pl.String, "closeUsd": pl.Float64}).sort("date")
     assert market_rows.height >= 30

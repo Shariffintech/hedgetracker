@@ -17,7 +17,7 @@ The three displayed funds were checked against current manager product pages and
 
 The performance desk appears before the fund cards. Its BTC-USD price index is explicit market context, based on [Coinbase Exchange daily candles](https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=86400). The Vercel build refreshes completed daily candles and retains the dated snapshot when the provider is unavailable. It is not a fund return. The three confirmed funds currently have no verified public return series, so the coverage indicator reads 0/3. Opening a fund card presents that gap, the manager's strategy, and a secondary historical filing section. Polars validates and prepares the chart data during the Vercel build.
 
-Add fund return observations to `pipeline/performance.json` only with an exact fund ID, share class, net return basis, source type, source URL and date, and at least two dated points. `pipeline/build_public.py` validates these fields and the benchmark before publishing. A primary document should be reviewed for methodology, fees, and completeness before ingestion.
+Add fund return observations to `pipeline/performance.json` only with an exact fund ID, share class, net return basis, source type, source URL and date, and at least two dated period returns (`returnPct`). The chart compounds these into an index starting at 100. `pipeline/build_public.py` checks the dates, values, and source domain before publishing. An administrator disclosure also needs its name and evidence URL. A primary document should be reviewed for methodology, fees, and completeness before ingestion.
 
 To rebuild the static site locally:
 

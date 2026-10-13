@@ -1,6 +1,7 @@
 """Credibility checks for the published fund directory."""
 
 import copy
+from datetime import date
 import json
 from pathlib import Path
 import unittest
@@ -42,6 +43,12 @@ class ConfirmedFundTests(unittest.TestCase):
         bad["series"] = [{"fundId": "pantera-liquid", "shareClass": "A", "returnBasis": "gross", "sourceType": "manager", "sourceDate": "2026-10-12", "sourceUrl": "https://panteracapital.com/", "points": [{"date": "2026-09-01", "returnPct": 1.0}, {"date": "2026-10-01", "returnPct": 2.0}]}]
         with self.assertRaises(AssertionError):
             build_performance(self.funds, bad, market)
+        reviewed = copy.deepcopy(bad)
+        reviewed["series"][0].update(returnBasis="net", sourceDate=date.today().isoformat())
+        self.assertEqual(build_performance(self.funds, reviewed, market)["coveredFundCount"], 1)
+        reviewed["series"][0]["sourceUrl"] = "https://unrelated.example/returns"
+        with self.assertRaises(AssertionError):
+            build_performance(self.funds, reviewed, market)
 
 
 if __name__ == "__main__":

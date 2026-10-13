@@ -151,6 +151,33 @@ function renderFunds(data, charts) {
 
 function renderPerformance() {
   const fundSeries = performanceData.series.find(item => item.fundId === selectedFund);
+  if (fundSeries) {
+    const all = fundSeries.points;
+    const lastDate = new Date(`${all.at(-1).date}T00:00:00Z`);
+    const cutoff = new Date(lastDate.getTime() - selectedPeriod * 86400000);
+    const points = all.filter(item => new Date(`${item.date}T00:00:00Z`) >= cutoff);
+    if (points.length >= 2) {
+      let index = 100;
+      const values = points.map(item => { index *= 1 + item.returnPct / 100; return index; });
+      byId('performance-chart').innerHTML = lineChart(values, 800, 210);
+      byId('performance-chart').setAttribute('aria-label', `${fundSeries.shareClass} net fund return index from ${points[0].date} to ${points.at(-1).date}, based on sourced period returns.`);
+      byId('chart-start').textContent = points[0].date;
+      byId('chart-end').textContent = points.at(-1).date;
+      byId('performance-chart-label').textContent = `${byId('performance-fund').selectedOptions[0].textContent.toUpperCase()} · NET RETURN INDEX`;
+      byId('performance-status').textContent = `${fundSeries.shareClass} net return series · ${points.length} dated observations · source dated ${fundSeries.sourceDate}.`;
+    } else {
+      byId('performance-chart').textContent = 'Not enough dated return observations in this window. Try 90D.';
+      byId('performance-chart').setAttribute('aria-label', 'Not enough dated fund returns in the selected period.');
+      byId('chart-start').textContent = '—';
+      byId('chart-end').textContent = '—';
+      byId('performance-chart-label').textContent = 'FUND RETURN SERIES · SHORT WINDOW';
+      byId('performance-status').textContent = `${fundSeries.shareClass} net return series is available, but this window has fewer than two observations.`;
+    }
+    byId('benchmark-source').replaceChildren(makeLink(`Fund return source · ${fundSeries.sourceType} · ${fundSeries.sourceDate} ↗`, fundSeries.sourceUrl));
+    byId('return-coverage').textContent = `${performanceData.coveredFundCount} / ${performanceData.fundCount}`;
+    document.querySelectorAll('[data-period]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.period) === selectedPeriod)));
+    return;
+  }
   const market = performanceData.benchmark.points.slice(-selectedPeriod);
   const labels = market.map(item => item.date);
   const values = market.map(item => item.closeUsd / market[0].closeUsd * 100);
@@ -159,9 +186,7 @@ function renderPerformance() {
   byId('chart-start').textContent = labels[0];
   byId('chart-end').textContent = labels.at(-1);
   byId('return-coverage').textContent = `${performanceData.coveredFundCount} / ${performanceData.fundCount}`;
-  byId('performance-status').textContent = fundSeries
-    ? `${fundSeries.shareClass} net return series available. Source dated ${fundSeries.sourceDate}.`
-    : 'No verified public fund return series for this selection. Chart shows BTC market context only.';
+  byId('performance-status').textContent = 'No verified public fund return series for this selection. Chart shows BTC market context only.';
   byId('benchmark-source').replaceChildren(makeLink(`BTC-USD daily close · Coinbase Exchange · retrieved ${performanceData.benchmark.retrievedAt} ↗`, performanceData.benchmark.sourceUrl));
   byId('performance-chart-label').textContent = 'BTC / USD MARKET PRICE INDEX · START = 100';
   document.querySelectorAll('[data-period]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.period) === selectedPeriod)));
