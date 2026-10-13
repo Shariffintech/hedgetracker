@@ -5,5 +5,7 @@ dashboard/target/
 __pycache__/
 .vercel/
 .vercel-build-venv/
+node_modules/
+yarn.lock
 .vercel
 .env*

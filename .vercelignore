@@ -1,5 +1,6 @@
 .vercel/
 .vercel-build-venv/
+node_modules/
 .env.local
 dashboard/target/
 test-ledger/

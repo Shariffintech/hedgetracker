@@ -17,6 +17,8 @@ For container hosting, the server listens on `0.0.0.0:$PORT` when `PORT` is set.
 
 Vercel serves the generated `public/` directory. The root `vercel.json` installs Polars and runs `pipeline/build_public.py` at build time, so `/`, `/app.js`, `/style.css`, and `/data/*.json` resolve as static assets. The Rust server continues to serve the same dashboard locally. The scenario calculator runs in the browser for static hosting; the Rust `/api/projection` endpoint remains available locally.
 
+Vercel also preserves the original API paths: `/api/funds` and `/api/discovery` rewrite to published JSON, while `/api/projection` runs as a small Vercel function with the same input limits as the Rust endpoint.
+
 Polars turns the labeled sample performance histories into chart points and aggregates recent SEC filing leads by month and review status. These datasets are in `public/data/visualizations.json`. The sample portfolio figures are still illustrative, and Form D lead counts do not imply current fund operation.
 
 To rebuild the static site locally:
